@@ -12,7 +12,7 @@
 
 /**
  * FOR ME: (notas personales)
- * cd cd VM/COMPARTIDA/PROGRA
+ * cd cd VM/COMPARTIDA/PROGRA/PRACTICA
  * gcc -Wall -o PracticaObligatoria-TrecenoRodriguezRafael PracticaObligatoria-TrecenoRodriguezRafael.c
  * ./PracticaObligatoria-TrecenoRodriguezRafael
  */
