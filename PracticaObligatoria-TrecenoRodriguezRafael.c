@@ -25,13 +25,21 @@ void seleccionarOpcion(int);
 int contarCaracteres(FILE *);
 int numeroTotalFilas(FILE *);
 int filaMasLarga(FILE *);
+void limpiarBuffer();
 
 int main()
 {
 
 	int opcion; // Opcion que ha escogido el usuario del menú
-	opcion = solicitarOpcionMenu();
-	seleccionarOpcion(opcion);
+	bool repetir = true;
+	
+	while(repetir){
+		opcion = solicitarOpcionMenu();
+		seleccionarOpcion(opcion);
+		if(opcion==0){
+			repetir=false;
+		}
+	}
 
 	return 0;
 }
@@ -61,7 +69,7 @@ int solicitarOpcionMenu()
 		printf("\n\t0.- Salir");
 		printf("\n**************************************************************************");
 		printf("\n ---> ");
-		scanf("%c", &charOpcion);
+		scanf("%c%*[^\n]", &charOpcion); // Para ignorar el \n
 
 		if (charOpcion >= 48 && charOpcion <= 52) // 48(Ascii)=0 y 52(Ascii)=4
 		{
@@ -74,6 +82,7 @@ int solicitarOpcionMenu()
 	} while (!opcionCorrecta);
 
 	opcion = charOpcion - '0';
+	limpiarBuffer();
 
 	return opcion;
 }
@@ -234,4 +243,10 @@ int filaMasLarga(FILE *fichero)
 	}
 
 	return numeroDeFilaMaximo;
+}
+
+
+
+void limpiarBuffer(){
+	while(getchar() != '\n'){}
 }
