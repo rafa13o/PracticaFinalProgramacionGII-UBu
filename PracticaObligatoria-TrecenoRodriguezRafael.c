@@ -79,10 +79,10 @@ int solicitarOpcionMenu()
 		{
 			printf("¡¡¡ Esa opción no está en el menú !!!");
 		}
+		limpiarBuffer();
 	} while (!opcionCorrecta);
 
 	opcion = charOpcion - '0';
-	limpiarBuffer();
 
 	return opcion;
 }
@@ -246,7 +246,9 @@ int filaMasLarga(FILE *fichero)
 }
 
 
-
+/**
+ * Función para limpiar el buffer
+ */
 void limpiarBuffer(){
 	while(getchar() != '\n'){}
 }
