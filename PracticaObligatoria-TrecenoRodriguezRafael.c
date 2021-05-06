@@ -258,13 +258,11 @@ int filaMasLarga(FILE *fichero)
 
 void solicitarDatos()
 {
-
 	bool datoCorrecto = false;
-	int datoAPedir = 0; // Dato que tengo que pedir y comprobar
-
+	int datoActual = 0; // Dato que tengo que pedir y comprobar
 	int opcionTerritorio, opcionEstacion, opcionMes;
-
 	char *comunidadAutonoma, *estacion, *mes; // Strings
+
 	/**
 	 * tempMedia = temperatura media mensual/anual (0)
 	 * mediaTempMax = media mensual/anual de las temperaturas máximas diarias (1)
@@ -286,12 +284,15 @@ void solicitarDatos()
 	 */
 	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
 
+	//-- Listas --
 	char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
 	char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
 									  "Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
 									  "Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
 									  "Torrejón de Ardoz"};
 	char listadoMeses[12][11] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+	int listaTamanosMinimos[] = {-20, -20, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int listaTamanosMaximos[] = {50, 50, 50, 300, 100, 366, 366, 20, 30, 50, 50, 250, 2000};
 
 	// Elección de comunidad autónoma
 	opcionTerritorio = menuTerritorios();
@@ -305,26 +306,110 @@ void solicitarDatos()
 	opcionMes = menuMes();
 	mes = listadoMeses[opcionMes];
 
-	printf("Ha seleccionado usted:\n\tCA: %d %s\n\tEstacion: %d %s\n\tMes: %d %s", opcionTerritorio, comunidadAutonoma, opcionEstacion, estacion, opcionMes, mes);
+	//printf("Ha seleccionado usted:\n\tCA: %d %s\n\tEstacion: %d %s\n\tMes: %d %s", opcionTerritorio, comunidadAutonoma, opcionEstacion, estacion, opcionMes, mes);
 
-	return;
-
-	while (datoAPedir < 12) // para comprobar todo
+	while (datoActual < 13) // para comprobar todo
 	{
-		switch (datoAPedir)
+		switch (datoActual)
 		{
 		case 0: //tempMedia
+			printf("Por favor, dame un valor para la TEMPERATURA MEDIA: --> ");
+			scanf("%f%*[^\n]", &tempMedia);
 			break;
 		case 1: // mediaTempMax
+			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÁXIMAS: --> ");
+			scanf("%f%*[^\n]", &mediaTempMax);
+			break;
+		case 2: // mediaTempMin
+			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÍNIMAS: --> ");
+			scanf("%f%*[^\n]", &mediaTempMin);
+			break;
+		case 3: // precipitacionMensualMedia
+			printf("Por favor, dame un valor para la MEDIA DE LAS PRECIPITACIONES: --> ");
+			scanf("%d%*[^\n]", &precipitacionMensualMedia);
+			break;
+		case 4: // humedadMedia
+			printf("Por favor, dame un valor para la MEDIA DE LA HUMEDAD RELATIVA: --> ");
+			scanf("%d%*[^\n]", &humedadMedia);
+			break;
+		case 5: // diasLluvia
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE LLUVIA: --> ");
+			scanf("%f%*[^\n]", &diasLluvia);
+			break;
+		case 6: // diasNieve
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEVE: --> ");
+			scanf("%f%*[^\n]", &diasNieve);
+			break;
+		case 7: // diasTempestad
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE TEMPESTAD: --> ");
+			scanf("%f%*[^\n]", &diasTempestad);
+			break;
+		case 8: // diasNiebla
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEBLA: --> ");
+			scanf("%f%*[^\n]", &diasNiebla);
+			break;
+		case 9: // diasHelada
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE HELADA: --> ");
+			scanf("%f%*[^\n]", &diasHelada);
+			break;
+		case 10: // diasVacios
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS SIN DATOS: --> ");
+			scanf("%f%*[^\n]", &diasVacios);
+			break;
+		case 11: // horasDeSol
+			printf("Por favor, dame un valor para la MEDIA DE HORAS DE SOL: --> ");
+			scanf("%d%*[^\n]", &horasDeSol);
+			break;
+		case 12: // altura
+			printf("Por favor, dame un valor para la ALTURA: --> ");
+			scanf("%d%*[^\n]", &altura);
 			break;
 		default:
 			break;
 		}
-		scanf("%d", &precipitacionMensualMedia);
-		datoCorrecto = validarEntero(precipitacionMensualMedia, 0, 300, 0, '\n');
+		limpiarBuffer();
+		if (datoActual != 3 && datoActual != 4 && datoActual != 11 && datoActual != 12){
+			printf("\testo se validaria con el validarReal mathuerso\n");
+			datoCorrecto=true;
+		}else
+			datoCorrecto = validarEntero(precipitacionMensualMedia, listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual], 0, '\n');
+		if (datoCorrecto)
+			datoActual++;
 	}
+
+	//-- DEBUG --
+	printf("\nCA: %s", comunidadAutonoma);
+	printf("\nEstación: %s", estacion);
+	printf("\nAltura: %d", altura);
+	printf("\nMes: %s", mes);
+	printf("\nTemperatura Media: %.1f", tempMedia);
+	printf("\nMedia temp. Maxima: %.1f", mediaTempMax);
+	printf("\nMedia temp. Mínima: %.1f", mediaTempMin);
+	printf("\nMedia precipitaciones: %d", precipitacionMensualMedia);
+	printf("\nMedia humedad: %d", humedadMedia);
+	printf("\nMedia lluvia: %.1f", diasLluvia);
+	printf("\nMedia nieve: %.1f", diasNieve);
+	printf("\nMedia tempestad: %.1f", diasTempestad);
+	printf("\nMedia niebla: %.1f", diasNiebla);
+	printf("\nMedia helada: %.1f", diasHelada);
+	printf("\nMedia vacíos: %.1f", diasVacios);
+
 }
 
+
+/**
+ * 
+ */
+bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter)
+{
+	printf("comprobando...");
+	return true;
+}
+
+
+/**
+ * 
+ */
 int menuTerritorios()
 {
 	int opcionTerritorio, contador;
@@ -355,6 +440,9 @@ int menuTerritorios()
 	return opcionTerritorio;
 }
 
+/**
+ * 
+ */
 int menuEstaciones()
 {
 	int opcionEstacion, contador;
@@ -388,6 +476,9 @@ int menuEstaciones()
 	return opcionEstacion;
 }
 
+/**
+ * 
+ */
 int menuMes()
 {
 	int opcionMes, contador;
@@ -418,10 +509,6 @@ int menuMes()
 	return opcionMes;
 }
 
-bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter)
-{
-	return false;
-}
 
 /**
  * Función para limpiar el buffer
@@ -432,9 +519,6 @@ void limpiarBuffer()
 	{
 	}
 }
-
-
-
 
 //------ BIBLIOGRAFÍA ------
 // https://www.microchip.com/forums/m955412.aspx
