@@ -29,18 +29,23 @@ void limpiarBuffer();
 void solicitarDatos();
 bool validarEntero(int, int, int, int, char);
 //bool validaReal(float, int, float, float, char);
+int menuTerritorios();
+int menuEstaciones();
+int menuMes();
 
 int main()
 {
 
 	int opcion; // Opcion que ha escogido el usuario del menú
 	bool repetir = true;
-	
-	while(repetir){
+
+	while (repetir)
+	{
 		opcion = solicitarOpcionMenu();
 		seleccionarOpcion(opcion);
-		if(opcion==0){
-			repetir=false;
+		if (opcion == 0)
+		{
+			repetir = false;
 		}
 	}
 
@@ -182,7 +187,7 @@ int contarCaracteres(FILE *fichero)
 int numeroTotalFilas(FILE *fichero)
 {
 	char caracterLeido; // El caracter que se lee en cada iteración del while
-	int contador = 1; // Comienzo a contar en 1
+	int contador = 1;	// Comienzo a contar en 1
 
 	while (!feof(fichero)) // Hasta el final del bucle
 	{
@@ -198,7 +203,6 @@ int numeroTotalFilas(FILE *fichero)
 
 	return contador;
 }
-
 
 /**
  * Función que devuelve el nñumero de la fila más larga.
@@ -248,9 +252,8 @@ int filaMasLarga(FILE *fichero)
 	return numeroDeFilaMaximo;
 }
 
-
-
-void solicitarDatos(){
+void solicitarDatos()
+{
 
 	bool datoCorrecto = false;
 	int datoAPedir = 0; // Dato que tengo que pedir y comprobar
@@ -277,32 +280,70 @@ void solicitarDatos(){
 	 */
 	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
 
-	char listadoComunidadesAutonomas[3][20]={"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
+	char listadoComunidadesAutonomas[3][20] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
+	char listadoEstaciones[20][21] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
+									  "Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
+									  "Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
+									  "Torrejón de Ardoz"};
+	char listadoMeses[12][10] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
-	while(!datoCorrecto){ // Mientras que el dato no sea correcto
+	menuTerritorios();
+
+	return;
+
+	while (!datoCorrecto)
+	{ // Mientras que el dato no sea correcto
 		switch (datoAPedir)
 		{
-			case 0:
+		case 0:
 			break;
 		default:
 			break;
 		}
 		scanf("%d", &precipitacionMensualMedia);
-		datoCorrecto=validarEntero(precipitacionMensualMedia, 0, 300, 0, '\n');
+		datoCorrecto = validarEntero(precipitacionMensualMedia, 0, 300, 0, '\n');
 	}
 }
 
 
+int menuTerritorios(){
+	int opcionTerritorio, contador;
 
-bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter){
-	return false;
+	char listadoComunidadesAutonomas[3][20] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
+
+	printf("Por favor, seleccione uno de la lista:\n");
+	for (int i = 0; i<3; i++){
+		contador = i + 1;
+		printf("\t%d.- %s\n", contador, listadoComunidadesAutonomas[i]);
+	}
+
+	return 0;
 }
 
 
 
+int menuEstaciones(){
+	return 0;
+}
+
+
+int menuMes(){
+	return 0;
+}
+
+
+
+bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter)
+{
+	return false;
+}
+
 /**
  * Función para limpiar el buffer
  */
-void limpiarBuffer(){
-	while(getchar() != '\n'){}
+void limpiarBuffer()
+{
+	while (getchar() != '\n')
+	{
+	}
 }
