@@ -74,6 +74,7 @@ int solicitarOpcionMenu()
 		printf("\n\t1.- Número total de caracteres (contando espacios y NO saltos de línea)");
 		printf("\n\t2.- Número total de filas");
 		printf("\n\t3.- Fila más larga");
+		printf("\n\t4.- Añadir una nueva fila");
 		printf("\n\t0.- Salir");
 		printf("\n**************************************************************************");
 		printf("\n ---> ");
@@ -142,6 +143,9 @@ void seleccionarOpcion(int opcion)
 		numeroDeFilaMasLarga = filaMasLarga(ficheroTemperaturas);
 		printf("La fila más larga es la fila %d\n\n", numeroDeFilaMasLarga);
 		fclose(ficheroTemperaturas);
+		break;
+	case 4:
+		solicitarDatos();
 		break;
 	default:
 		printf("Saliendo...\n\n\n");
@@ -258,6 +262,8 @@ void solicitarDatos()
 	bool datoCorrecto = false;
 	int datoAPedir = 0; // Dato que tengo que pedir y comprobar
 
+	int opcionTerritorio, opcionEstacion, opcionMes;
+
 	char comunidadAutonoma[20], estacion[21], mes[10]; // Strings
 	/**
 	 * tempMedia = temperatura media mensual/anual (0)
@@ -287,7 +293,13 @@ void solicitarDatos()
 									  "Torrejón de Ardoz"};
 	char listadoMeses[12][10] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
-	menuTerritorios();
+	// Elección de comunidad autónoma
+	opcionTerritorio = menuTerritorios();
+	comunidadAutonoma[20] = listadoComunidadesAutonomas[opcionTerritorio];
+
+	// Elección de estación
+	opcionEstacion = menuEstaciones();
+	estacion[21] = listadoEstaciones[opcionEstacion];
 
 	return;
 
@@ -295,7 +307,9 @@ void solicitarDatos()
 	{ // Mientras que el dato no sea correcto
 		switch (datoAPedir)
 		{
-		case 0:
+		case 0: //tempMedia
+			break;
+		case 1: // mediaTempMax
 			break;
 		default:
 			break;
@@ -305,33 +319,71 @@ void solicitarDatos()
 	}
 }
 
-
-int menuTerritorios(){
+int menuTerritorios()
+{
 	int opcionTerritorio, contador;
+
+	bool opcionCorrecta = false;
 
 	char listadoComunidadesAutonomas[3][20] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
 
 	printf("Por favor, seleccione uno de la lista:\n");
-	for (int i = 0; i<3; i++){
+	for (int i = 0; i < 3; i++)
+	{
 		contador = i + 1;
 		printf("\t%d.- %s\n", contador, listadoComunidadesAutonomas[i]);
 	}
 
+	while (!opcionCorrecta)
+	{
+		printf("\t ---> ");
+		scanf("%d%*[^\n]", &opcionTerritorio);
+		limpiarBuffer();
+		if(opcionTerritorio >= 1 && opcionTerritorio <=3){
+			opcionCorrecta = true;
+		}
+	}
+
+	return opcionTerritorio;
+}
+
+int menuEstaciones()
+{
+	int opcionEstacion, contador;
+
+	bool opcionCorrecta = false;
+
+	char listadoEstaciones[20][21] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
+									  "Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
+									  "Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
+									  "Torrejón de Ardoz"};
+
+	
+	printf("Por favor, seleccione uno de la lista:\n");
+	for (int i = 0; i < 20; i++)
+	{
+		contador = i + 1;
+		printf("\t%d.- %s\n", contador, listadoEstaciones[i]);
+	}
+
+	while (!opcionCorrecta)
+	{
+		printf("\t ---> ");
+		scanf("%d%*[^\n]", &opcionEstacion);
+		limpiarBuffer();
+		if(opcionEstacion >= 1 && opcionEstacion <=20){
+			opcionCorrecta = true;
+		}
+	}
+
+
 	return 0;
 }
 
-
-
-int menuEstaciones(){
+int menuMes()
+{
 	return 0;
 }
-
-
-int menuMes(){
-	return 0;
-}
-
-
 
 bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter)
 {
