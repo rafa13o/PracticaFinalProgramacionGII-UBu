@@ -264,7 +264,7 @@ void solicitarDatos()
 
 	int opcionTerritorio, opcionEstacion, opcionMes;
 
-	char comunidadAutonoma[20], estacion[21], mes[10]; // Strings
+	char *comunidadAutonoma, *estacion, *mes; // Strings
 	/**
 	 * tempMedia = temperatura media mensual/anual (0)
 	 * mediaTempMax = media mensual/anual de las temperaturas máximas diarias (1)
@@ -286,25 +286,31 @@ void solicitarDatos()
 	 */
 	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
 
-	char listadoComunidadesAutonomas[3][20] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
-	char listadoEstaciones[20][21] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
+	char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
+	char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
 									  "Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
 									  "Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
 									  "Torrejón de Ardoz"};
-	char listadoMeses[12][10] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+	char listadoMeses[12][11] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
 	// Elección de comunidad autónoma
 	opcionTerritorio = menuTerritorios();
-	comunidadAutonoma[20] = listadoComunidadesAutonomas[opcionTerritorio];
+	comunidadAutonoma = listadoComunidadesAutonomas[opcionTerritorio];
 
 	// Elección de estación
 	opcionEstacion = menuEstaciones();
-	estacion[21] = listadoEstaciones[opcionEstacion];
+	estacion = listadoEstaciones[opcionEstacion];
+
+	//Elección del mes
+	opcionMes = menuMes();
+	mes = listadoMeses[opcionMes];
+
+	printf("Ha seleccionado usted:\n\tCA: %d %s\n\tEstacion: %d %s\n\tMes: %d %s", opcionTerritorio, comunidadAutonoma, opcionEstacion, estacion, opcionMes, mes);
 
 	return;
 
-	while (!datoCorrecto)
-	{ // Mientras que el dato no sea correcto
+	while (datoAPedir < 12) // para comprobar todo
+	{
 		switch (datoAPedir)
 		{
 		case 0: //tempMedia
@@ -322,10 +328,9 @@ void solicitarDatos()
 int menuTerritorios()
 {
 	int opcionTerritorio, contador;
-
 	bool opcionCorrecta = false;
 
-	char listadoComunidadesAutonomas[3][20] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
+	char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
 
 	printf("Por favor, seleccione uno de la lista:\n");
 	for (int i = 0; i < 3; i++)
@@ -339,10 +344,13 @@ int menuTerritorios()
 		printf("\t ---> ");
 		scanf("%d%*[^\n]", &opcionTerritorio);
 		limpiarBuffer();
-		if(opcionTerritorio >= 1 && opcionTerritorio <=3){
+		if (opcionTerritorio >= 1 && opcionTerritorio <= 3)
+		{
 			opcionCorrecta = true;
 		}
 	}
+
+	opcionTerritorio--; // Le resto uno porque el usuario cuenta de 1 a 3, pero el array va de 0 a 2
 
 	return opcionTerritorio;
 }
@@ -350,15 +358,13 @@ int menuTerritorios()
 int menuEstaciones()
 {
 	int opcionEstacion, contador;
-
 	bool opcionCorrecta = false;
 
-	char listadoEstaciones[20][21] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
+	char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
 									  "Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
 									  "Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
 									  "Torrejón de Ardoz"};
 
-	
 	printf("Por favor, seleccione uno de la lista:\n");
 	for (int i = 0; i < 20; i++)
 	{
@@ -371,18 +377,45 @@ int menuEstaciones()
 		printf("\t ---> ");
 		scanf("%d%*[^\n]", &opcionEstacion);
 		limpiarBuffer();
-		if(opcionEstacion >= 1 && opcionEstacion <=20){
+		if (opcionEstacion >= 1 && opcionEstacion <= 20)
+		{
 			opcionCorrecta = true;
 		}
 	}
 
+	opcionEstacion--; // Le resto uno porque el usuario cuenta de 1 a 3, pero el array va de 0 a 2
 
-	return 0;
+	return opcionEstacion;
 }
 
 int menuMes()
 {
-	return 0;
+	int opcionMes, contador;
+	bool opcionCorrecta = false;
+
+	char listadoMeses[12][11] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+
+	printf("Por favor, seleccione uno de la lista:\n");
+	for (int i = 0; i < 12; i++)
+	{
+		contador = i + 1;
+		printf("\t%d.- %s\n", contador, listadoMeses[i]);
+	}
+
+	while (!opcionCorrecta)
+	{
+		printf("\t ---> ");
+		scanf("%d%*[^\n]", &opcionMes);
+		limpiarBuffer();
+		if (opcionMes >= 1 && opcionMes <= 12)
+		{
+			opcionCorrecta = true;
+		}
+	}
+
+	opcionMes--; // Le resto uno porque el usuario cuenta de 1 a 3, pero el array va de 0 a 2
+
+	return opcionMes;
 }
 
 bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter)
@@ -399,3 +432,9 @@ void limpiarBuffer()
 	{
 	}
 }
+
+
+
+
+//------ BIBLIOGRAFÍA ------
+// https://www.microchip.com/forums/m955412.aspx
