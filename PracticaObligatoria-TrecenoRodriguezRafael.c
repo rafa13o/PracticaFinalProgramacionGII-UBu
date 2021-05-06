@@ -26,6 +26,9 @@ int contarCaracteres(FILE *);
 int numeroTotalFilas(FILE *);
 int filaMasLarga(FILE *);
 void limpiarBuffer();
+void solicitarDatos();
+bool validarEntero(int, int, int, int, char);
+//bool validaReal(float, int, float, float, char);
 
 int main()
 {
@@ -244,6 +247,57 @@ int filaMasLarga(FILE *fichero)
 
 	return numeroDeFilaMaximo;
 }
+
+
+
+void solicitarDatos(){
+
+	bool datoCorrecto = false;
+	int datoAPedir = 0; // Dato que tengo que pedir y comprobar
+
+	char comunidadAutonoma[20], estacion[21], mes[10]; // Strings
+	/**
+	 * tempMedia = temperatura media mensual/anual (0)
+	 * mediaTempMax = media mensual/anual de las temperaturas máximas diarias (1)
+	 * mediaTempMin = media mensual/anual de las temperaturas mínimas diarias (2)
+	 * diasLluvia = media mensual/anual de días de precipitación superior o igual a 1 mm (5)
+	 * diasNieve = media mensual/anual de días de nieve (6)
+	 * diasTempestad = media mensual/anual de días de tempestad (7)
+	 * diasNiebla = media mensual/anual de días de niebla (8)
+	 * diasHelada = media mensual/anual de días de helada (9)
+	 * diasVacios = media mensual/anual de días con datos "vacíos" (10)
+	 */
+	float tempMedia, mediaTempMax, mediaTempMin, diasLluvia, diasNieve, diasTempestad, diasNiebla, diasHelada, diasVacios;
+
+	/**
+	 * precipitacionMensualMedia = precipitación mensual/anual media (mm) (3)
+	 * humedadMedia = humedad relativa media (%) (4)
+	 * horasDeSol = media mensual/anual de horas de sol (11)
+	 * altura = altura (en m) de la estación
+	 */
+	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
+
+	char listadoComunidadesAutonomas[3][20]={"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
+
+	while(!datoCorrecto){ // Mientras que el dato no sea correcto
+		switch (datoAPedir)
+		{
+			case 0:
+			break;
+		default:
+			break;
+		}
+		scanf("%d", &precipitacionMensualMedia);
+		datoCorrecto=validarEntero(precipitacionMensualMedia, 0, 300, 0, '\n');
+	}
+}
+
+
+
+bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter){
+	return false;
+}
+
 
 
 /**
