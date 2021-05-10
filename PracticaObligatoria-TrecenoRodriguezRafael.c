@@ -270,7 +270,8 @@ void solicitarDatos()
 {
 	bool datoCorrecto = false;
 	int datoActual = 0; // Dato que tengo que pedir y comprobar
-	int opcionTerritorio, opcionEstacion, opcionMes, cantidadDatosLeidos;
+	int opcionTerritorio, opcionEstacion, opcionMes, cantidadDatosLeidos, datoEnteroLeido;
+	float datoRealLeido;
 	char *comunidadAutonoma, *estacion, *mes; // Strings
 	char enter;								  // Para comprobar si el usuario ha introducido un enter
 
@@ -307,63 +308,83 @@ void solicitarDatos()
 	opcionMes = menuMes();
 	mes = (char *)listadoMeses[opcionMes];
 
-	//printf("Ha seleccionado usted:\n\tCA: %d %s\n\tEstacion: %d %s\n\tMes: %d %s", opcionTerritorio, comunidadAutonoma, opcionEstacion, estacion, opcionMes, mes);
+	//printf("Ha seleccionado usted:\n\tCA: %d %s\n\tEstacion: %d %s\n\tMes: %d %s\n\n", opcionTerritorio, comunidadAutonoma, opcionEstacion, estacion, opcionMes, mes);
 
 	while (datoActual < 13) // para comprobar todo
 	{
+		/** Lo que voy haciendo es recoger los datos en datoRealLeido (para los float) 
+		 * y datoEnteroLeido (para los int)
+		 * El dato leído lo guardo en la variable correspondiente y compruebo 
+		 * que el dato sea correcto. Si no es correcto, volverá a pedirlo y
+		 * se repetirá el proceso. Si es correcto, sumará uno a datoActual para
+		 * pedir el siguiente dato y repetir el mismo proceso.
+		 */
 		switch (datoActual)
 		{
 		case 0: //tempMedia
 			printf("Por favor, dame un valor para la TEMPERATURA MEDIA: --> ");
-			cantidadDatosLeidos = scanf("%f%c", &tempMedia, &enter);
+			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
+			tempMedia = datoRealLeido;
 			break;
 		case 1: // mediaTempMax
 			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÁXIMAS: --> ");
-			cantidadDatosLeidos = scanf("%f%c", &mediaTempMax, &enter);
+			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
+			mediaTempMax = datoRealLeido;
 			break;
 		case 2: // mediaTempMin
 			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÍNIMAS: --> ");
-			cantidadDatosLeidos = scanf("%f%c", &mediaTempMin, &enter);
+			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
+			mediaTempMin = datoRealLeido;
 			break;
 		case 3: // precipitacionMensualMedia
 			printf("Por favor, dame un valor para la MEDIA DE LAS PRECIPITACIONES: --> ");
-			cantidadDatosLeidos = scanf("%d%c", &precipitacionMensualMedia, &enter);
+			cantidadDatosLeidos = scanf("%d%c", &datoEnteroLeido, &enter);
+			precipitacionMensualMedia = datoEnteroLeido;
 			break;
 		case 4: // humedadMedia
 			printf("Por favor, dame un valor para la MEDIA DE LA HUMEDAD RELATIVA: --> ");
-			cantidadDatosLeidos = scanf("%d%c", &humedadMedia, &enter);
+			cantidadDatosLeidos = scanf("%d%c", &datoEnteroLeido, &enter);
+			humedadMedia = datoEnteroLeido;
 			break;
 		case 5: // diasLluvia
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE LLUVIA: --> ");
-			cantidadDatosLeidos = scanf("%f%c", &diasLluvia, &enter);
+			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
+			diasLluvia = datoRealLeido;
 			break;
 		case 6: // diasNieve
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEVE: --> ");
-			cantidadDatosLeidos = scanf("%f%c", &diasNieve, &enter);
+			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
+			diasNieve = datoRealLeido;
 			break;
 		case 7: // diasTempestad
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE TEMPESTAD: --> ");
-			cantidadDatosLeidos = scanf("%f%c", &diasTempestad, &enter);
+			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
+			diasTempestad = datoRealLeido;
 			break;
 		case 8: // diasNiebla
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEBLA: --> ");
-			cantidadDatosLeidos = scanf("%f%c", &diasNiebla, &enter);
+			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
+			diasNiebla = datoRealLeido;
 			break;
 		case 9: // diasHelada
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE HELADA: --> ");
-			cantidadDatosLeidos = scanf("%f%c", &diasHelada, &enter);
+			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
+			diasHelada = datoRealLeido;
 			break;
 		case 10: // diasVacios
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS SIN DATOS: --> ");
-			cantidadDatosLeidos = scanf("%f%c", &diasVacios, &enter);
+			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
+			diasVacios = datoRealLeido;
 			break;
 		case 11: // horasDeSol
 			printf("Por favor, dame un valor para la MEDIA DE HORAS DE SOL: --> ");
-			cantidadDatosLeidos = scanf("%d%c", &horasDeSol, &enter);
+			cantidadDatosLeidos = scanf("%d%c", &datoEnteroLeido, &enter);
+			horasDeSol = datoEnteroLeido;
 			break;
 		case 12: // altura
 			printf("Por favor, dame un valor para la ALTURA: --> ");
-			cantidadDatosLeidos = scanf("%d%c", &altura, &enter);
+			cantidadDatosLeidos = scanf("%d%c", &datoEnteroLeido, &enter);
+			altura = datoEnteroLeido;
 			break;
 		default:
 			break;
@@ -371,11 +392,11 @@ void solicitarDatos()
 
 		if (datoActual == 3 || datoActual == 4 || datoActual == 11 || datoActual == 12)
 		{
-			datoCorrecto = validarEntero(precipitacionMensualMedia, listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual], cantidadDatosLeidos, enter);
+			datoCorrecto = validarEntero(datoEnteroLeido, listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual], cantidadDatosLeidos, enter);
 		}
 		else
 		{
-			printf("\testo se validaria con el validarReal mathuerso\n");
+			printf("\testo se validaria con el validarReal %f\n", datoRealLeido);
 			printf("Pulse intro para continuar"); //Esto debe ir dentro de la función al final
 			datoCorrecto = true;
 			limpiarBuffer();
@@ -384,7 +405,7 @@ void solicitarDatos()
 		if (datoCorrecto)
 			datoActual++;
 		else
-			printf("El dato es incorrecto. Recuerde que el dato debe estar entre %d y %d.", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
+			printf("--- ¡¡El dato es incorrecto!!. Recuerde que el dato debe estar entre %d y %d.\n", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 	}
 
 	//-- DEBUG --
@@ -403,6 +424,7 @@ void solicitarDatos()
 	printf("\nMedia niebla: %.1f", diasNiebla);
 	printf("\nMedia helada: %.1f", diasHelada);
 	printf("\nMedia vacíos: %.1f", diasVacios);
+	printf("\nMedia horas de sol: %d", horasDeSol);
 }
 
 /**
@@ -468,15 +490,20 @@ int menuTerritorios()
  */
 int menuEstaciones(int territorioSeleccionado)
 {
+	/**
+	 * sumar = cantidad a sumar para que de el resultado correcto (posición del array)
+	 */
 	int opcionEstacion, contador = 1, sumar;
 	bool opcionCorrecta = false;
+	int opcionMaxima; // Opción máxima que el usuario puede seleccionar de la lista que se le muestra en cada caso
 
 	printf("Por favor, seleccione uno de la lista:\n");
 
 	if (territorioSeleccionado == 0) // Comunidad Valenciana
 	{
-		sumar = 1;
-		for (int i = 0; i < 2; i++)
+		sumar = 0;
+		opcionMaxima = 3;
+		for (int i = 0; i < 3; i++)
 		{
 			printf("\t%d.- %s\n", contador, listadoEstaciones[i]);
 			contador++;
@@ -485,7 +512,8 @@ int menuEstaciones(int territorioSeleccionado)
 	else if (territorioSeleccionado == 1) // Castilla y León
 	{
 		sumar = 3;
-		for (int i = 3; i < 12; i++)
+		opcionMaxima = 10;
+		for (int i = 3; i < 13; i++)
 		{
 			printf("\t%d.- %s\n", contador, listadoEstaciones[i]);
 			contador++;
@@ -494,6 +522,7 @@ int menuEstaciones(int territorioSeleccionado)
 	else // Comunidad de Madrid
 	{
 		sumar = 13;
+		opcionMaxima = 7;
 		for (int i = 13; i < 20; i++)
 		{
 			printf("\t%d.- %s\n", contador, listadoEstaciones[i]);
@@ -506,14 +535,6 @@ int menuEstaciones(int territorioSeleccionado)
 		printf("\t ---> ");
 		scanf("%d%*[^\n]", &opcionEstacion);
 		limpiarBuffer();
-		int opcionMaxima;
-		if(opcionEstacion==1){ // Comunidad Valenciana
-			opcionMaxima = 3;
-		}else if(opcionEstacion == 2){ // Castilla y León
-			opcionMaxima = 10;
-		}else{ // Comunidad de Madrid
-			opcionMaxima = 7;
-		}
 		if (opcionEstacion >= 1 && opcionEstacion <= opcionMaxima)
 		{
 			opcionCorrecta = true;
