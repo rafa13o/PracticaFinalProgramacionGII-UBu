@@ -12,7 +12,7 @@
 
 /**
  * FOR ME: (notas personales)
- * cd cd VM/COMPARTIDA/PROGRA/PRACTICA
+ * cd VM/COMPARTIDA/PROGRA/PRACTICA
  * gcc -Wall -o PracticaObligatoria-TrecenoRodriguezRafael PracticaObligatoria-TrecenoRodriguezRafael.c
  * ./PracticaObligatoria-TrecenoRodriguezRafael
  */
@@ -36,9 +36,9 @@ int menuMes();
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
 const char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
-									  "Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
-									  "Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
-									  "Torrejón de Ardoz"};
+										"Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
+										"Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
+										"Torrejón de Ardoz"};
 const char listadoMeses[12][11] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 const int listaTamanosMinimos[] = {-20, -20, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 const int listaTamanosMaximos[] = {50, 50, 50, 300, 100, 366, 366, 20, 30, 50, 50, 250, 2000};
@@ -270,8 +270,9 @@ void solicitarDatos()
 {
 	bool datoCorrecto = false;
 	int datoActual = 0; // Dato que tengo que pedir y comprobar
-	int opcionTerritorio, opcionEstacion, opcionMes;
+	int opcionTerritorio, opcionEstacion, opcionMes, cantidadDatosLeidos;
 	char *comunidadAutonoma, *estacion, *mes; // Strings
+	char enter;								  // Para comprobar si el usuario ha introducido un enter
 
 	/**
 	 * tempMedia = temperatura media mensual/anual (0)
@@ -294,18 +295,17 @@ void solicitarDatos()
 	 */
 	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
 
-
 	// Elección de comunidad autónoma
 	opcionTerritorio = menuTerritorios();
-	comunidadAutonoma = listadoComunidadesAutonomas[opcionTerritorio];
+	comunidadAutonoma = (char *)listadoComunidadesAutonomas[opcionTerritorio];
 
 	// Elección de estación
-	opcionEstacion = menuEstaciones();
-	estacion = listadoEstaciones[opcionEstacion];
+	opcionEstacion = menuEstaciones(opcionTerritorio);
+	estacion = (char *)listadoEstaciones[opcionEstacion];
 
 	//Elección del mes
 	opcionMes = menuMes();
-	mes = listadoMeses[opcionMes];
+	mes = (char *)listadoMeses[opcionMes];
 
 	//printf("Ha seleccionado usted:\n\tCA: %d %s\n\tEstacion: %d %s\n\tMes: %d %s", opcionTerritorio, comunidadAutonoma, opcionEstacion, estacion, opcionMes, mes);
 
@@ -315,67 +315,76 @@ void solicitarDatos()
 		{
 		case 0: //tempMedia
 			printf("Por favor, dame un valor para la TEMPERATURA MEDIA: --> ");
-			scanf("%f %c", &tempMedia);
+			cantidadDatosLeidos = scanf("%f%c", &tempMedia, &enter);
 			break;
 		case 1: // mediaTempMax
 			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÁXIMAS: --> ");
-			scanf("%f %c", &mediaTempMax);
+			cantidadDatosLeidos = scanf("%f%c", &mediaTempMax, &enter);
 			break;
 		case 2: // mediaTempMin
 			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÍNIMAS: --> ");
-			scanf("%f %c", &mediaTempMin);
+			cantidadDatosLeidos = scanf("%f%c", &mediaTempMin, &enter);
 			break;
 		case 3: // precipitacionMensualMedia
 			printf("Por favor, dame un valor para la MEDIA DE LAS PRECIPITACIONES: --> ");
-			scanf("%d %c", &precipitacionMensualMedia);
+			cantidadDatosLeidos = scanf("%d%c", &precipitacionMensualMedia, &enter);
 			break;
 		case 4: // humedadMedia
 			printf("Por favor, dame un valor para la MEDIA DE LA HUMEDAD RELATIVA: --> ");
-			scanf("%d %c", &humedadMedia);
+			cantidadDatosLeidos = scanf("%d%c", &humedadMedia, &enter);
 			break;
 		case 5: // diasLluvia
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE LLUVIA: --> ");
-			scanf("%f %c", &diasLluvia);
+			cantidadDatosLeidos = scanf("%f%c", &diasLluvia, &enter);
 			break;
 		case 6: // diasNieve
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEVE: --> ");
-			scanf("%f %c", &diasNieve);
+			cantidadDatosLeidos = scanf("%f%c", &diasNieve, &enter);
 			break;
 		case 7: // diasTempestad
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE TEMPESTAD: --> ");
-			scanf("%f %c", &diasTempestad);
+			cantidadDatosLeidos = scanf("%f%c", &diasTempestad, &enter);
 			break;
 		case 8: // diasNiebla
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEBLA: --> ");
-			scanf("%f %c", &diasNiebla);
+			cantidadDatosLeidos = scanf("%f%c", &diasNiebla, &enter);
 			break;
 		case 9: // diasHelada
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE HELADA: --> ");
-			scanf("%f %c", &diasHelada);
+			cantidadDatosLeidos = scanf("%f%c", &diasHelada, &enter);
 			break;
 		case 10: // diasVacios
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS SIN DATOS: --> ");
-			scanf("%f %c", &diasVacios);
+			cantidadDatosLeidos = scanf("%f%c", &diasVacios, &enter);
 			break;
 		case 11: // horasDeSol
 			printf("Por favor, dame un valor para la MEDIA DE HORAS DE SOL: --> ");
-			scanf("%d %c", &horasDeSol);
+			cantidadDatosLeidos = scanf("%d%c", &horasDeSol, &enter);
 			break;
 		case 12: // altura
 			printf("Por favor, dame un valor para la ALTURA: --> ");
-			scanf("%d %c", &altura);
+			cantidadDatosLeidos = scanf("%d%c", &altura, &enter);
 			break;
 		default:
 			break;
 		}
-		limpiarBuffer();
-		if (datoActual != 3 && datoActual != 4 && datoActual != 11 && datoActual != 12){
+
+		if (datoActual == 3 || datoActual == 4 || datoActual == 11 || datoActual == 12)
+		{
+			datoCorrecto = validarEntero(precipitacionMensualMedia, listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual], cantidadDatosLeidos, enter);
+		}
+		else
+		{
 			printf("\testo se validaria con el validarReal mathuerso\n");
-			datoCorrecto=true;
-		}else
-			datoCorrecto = validarEntero(precipitacionMensualMedia, listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual], 0, '\n');
+			printf("Pulse intro para continuar"); //Esto debe ir dentro de la función al final
+			datoCorrecto = true;
+			limpiarBuffer();
+		}
+
 		if (datoCorrecto)
 			datoActual++;
+		else
+			printf("El dato es incorrecto. Recuerde que el dato debe estar entre %d y %d.", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 	}
 
 	//-- DEBUG --
@@ -394,9 +403,7 @@ void solicitarDatos()
 	printf("\nMedia niebla: %.1f", diasNiebla);
 	printf("\nMedia helada: %.1f", diasHelada);
 	printf("\nMedia vacíos: %.1f", diasVacios);
-
 }
-
 
 /**
  * @param numeroLeido el número que ha introducido el usuario
@@ -407,10 +414,23 @@ void solicitarDatos()
  */
 bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter)
 {
-	printf("comprobando...");
-	return true;
-}
+	bool datoCorrecto = false;
 
+	// Primero compruebo que el scanf() solo devuelva dos valores (el valor del dato y el intro)
+	if (parametrosLeidos == 2)
+	{
+		// Compruebo que el enter sea verdaderamente un enter
+		if (enter == '\n')
+			if (numeroLeido >= tamanoMinimo && numeroLeido <= tamanoMaximo)
+			{
+				datoCorrecto = true;
+			}
+	}
+
+	printf("     Pulse intro para continuar");
+	limpiarBuffer();
+	return datoCorrecto;
+}
 
 /**
  * 
@@ -446,16 +466,39 @@ int menuTerritorios()
 /**
  * 
  */
-int menuEstaciones()
+int menuEstaciones(int territorioSeleccionado)
 {
-	int opcionEstacion, contador;
+	int opcionEstacion, contador = 1, sumar;
 	bool opcionCorrecta = false;
 
 	printf("Por favor, seleccione uno de la lista:\n");
-	for (int i = 0; i < 20; i++)
+
+	if (territorioSeleccionado == 0) // Comunidad Valenciana
 	{
-		contador = i + 1;
-		printf("\t%d.- %s\n", contador, listadoEstaciones[i]);
+		sumar = 1;
+		for (int i = 0; i < 2; i++)
+		{
+			printf("\t%d.- %s\n", contador, listadoEstaciones[i]);
+			contador++;
+		}
+	}
+	else if (territorioSeleccionado == 1) // Castilla y León
+	{
+		sumar = 3;
+		for (int i = 3; i < 12; i++)
+		{
+			printf("\t%d.- %s\n", contador, listadoEstaciones[i]);
+			contador++;
+		}
+	}
+	else // Comunidad de Madrid
+	{
+		sumar = 13;
+		for (int i = 13; i < 20; i++)
+		{
+			printf("\t%d.- %s\n", contador, listadoEstaciones[i]);
+			contador++;
+		}
 	}
 
 	while (!opcionCorrecta)
@@ -463,13 +506,22 @@ int menuEstaciones()
 		printf("\t ---> ");
 		scanf("%d%*[^\n]", &opcionEstacion);
 		limpiarBuffer();
-		if (opcionEstacion >= 1 && opcionEstacion <= 20)
+		int opcionMaxima;
+		if(opcionEstacion==1){ // Comunidad Valenciana
+			opcionMaxima = 3;
+		}else if(opcionEstacion == 2){ // Castilla y León
+			opcionMaxima = 10;
+		}else{ // Comunidad de Madrid
+			opcionMaxima = 7;
+		}
+		if (opcionEstacion >= 1 && opcionEstacion <= opcionMaxima)
 		{
 			opcionCorrecta = true;
 		}
 	}
 
-	opcionEstacion--; // Le resto uno porque el usuario cuenta de 1 a 3, pero el array va de 0 a 2
+	opcionEstacion+=sumar; 
+	opcionEstacion--;
 
 	return opcionEstacion;
 }
@@ -505,7 +557,6 @@ int menuMes()
 	return opcionMes;
 }
 
-
 /**
  * Función para limpiar el buffer
  */
@@ -518,3 +569,4 @@ void limpiarBuffer()
 
 //------ BIBLIOGRAFÍA ------
 // https://www.microchip.com/forums/m955412.aspx
+// https://www.microchip.com/forums/m719672.aspx
