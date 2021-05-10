@@ -33,6 +33,16 @@ int menuTerritorios();
 int menuEstaciones();
 int menuMes();
 
+//--- Listas constantes ---
+const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
+const char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
+									  "Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
+									  "Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
+									  "Torrejón de Ardoz"};
+const char listadoMeses[12][11] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+const int listaTamanosMinimos[] = {-20, -20, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const int listaTamanosMaximos[] = {50, 50, 50, 300, 100, 366, 366, 20, 30, 50, 50, 250, 2000};
+
 int main()
 {
 
@@ -284,15 +294,6 @@ void solicitarDatos()
 	 */
 	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
 
-	//-- Listas --
-	char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
-	char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
-									  "Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
-									  "Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
-									  "Torrejón de Ardoz"};
-	char listadoMeses[12][11] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-	int listaTamanosMinimos[] = {-20, -20, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-	int listaTamanosMaximos[] = {50, 50, 50, 300, 100, 366, 366, 20, 30, 50, 50, 250, 2000};
 
 	// Elección de comunidad autónoma
 	opcionTerritorio = menuTerritorios();
@@ -314,55 +315,55 @@ void solicitarDatos()
 		{
 		case 0: //tempMedia
 			printf("Por favor, dame un valor para la TEMPERATURA MEDIA: --> ");
-			scanf("%f%*[^\n]", &tempMedia);
+			scanf("%f %c", &tempMedia);
 			break;
 		case 1: // mediaTempMax
 			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÁXIMAS: --> ");
-			scanf("%f%*[^\n]", &mediaTempMax);
+			scanf("%f %c", &mediaTempMax);
 			break;
 		case 2: // mediaTempMin
 			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÍNIMAS: --> ");
-			scanf("%f%*[^\n]", &mediaTempMin);
+			scanf("%f %c", &mediaTempMin);
 			break;
 		case 3: // precipitacionMensualMedia
 			printf("Por favor, dame un valor para la MEDIA DE LAS PRECIPITACIONES: --> ");
-			scanf("%d%*[^\n]", &precipitacionMensualMedia);
+			scanf("%d %c", &precipitacionMensualMedia);
 			break;
 		case 4: // humedadMedia
 			printf("Por favor, dame un valor para la MEDIA DE LA HUMEDAD RELATIVA: --> ");
-			scanf("%d%*[^\n]", &humedadMedia);
+			scanf("%d %c", &humedadMedia);
 			break;
 		case 5: // diasLluvia
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE LLUVIA: --> ");
-			scanf("%f%*[^\n]", &diasLluvia);
+			scanf("%f %c", &diasLluvia);
 			break;
 		case 6: // diasNieve
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEVE: --> ");
-			scanf("%f%*[^\n]", &diasNieve);
+			scanf("%f %c", &diasNieve);
 			break;
 		case 7: // diasTempestad
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE TEMPESTAD: --> ");
-			scanf("%f%*[^\n]", &diasTempestad);
+			scanf("%f %c", &diasTempestad);
 			break;
 		case 8: // diasNiebla
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEBLA: --> ");
-			scanf("%f%*[^\n]", &diasNiebla);
+			scanf("%f %c", &diasNiebla);
 			break;
 		case 9: // diasHelada
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE HELADA: --> ");
-			scanf("%f%*[^\n]", &diasHelada);
+			scanf("%f %c", &diasHelada);
 			break;
 		case 10: // diasVacios
 			printf("Por favor, dame un valor para la MEDIA DE DÍAS SIN DATOS: --> ");
-			scanf("%f%*[^\n]", &diasVacios);
+			scanf("%f %c", &diasVacios);
 			break;
 		case 11: // horasDeSol
 			printf("Por favor, dame un valor para la MEDIA DE HORAS DE SOL: --> ");
-			scanf("%d%*[^\n]", &horasDeSol);
+			scanf("%d %c", &horasDeSol);
 			break;
 		case 12: // altura
 			printf("Por favor, dame un valor para la ALTURA: --> ");
-			scanf("%d%*[^\n]", &altura);
+			scanf("%d %c", &altura);
 			break;
 		default:
 			break;
@@ -398,7 +399,11 @@ void solicitarDatos()
 
 
 /**
- * 
+ * @param numeroLeido el número que ha introducido el usuario
+ * @param tamanoMinimo el rango mínimo de ese dato
+ * @param tamanoMaximo el rango máximo de ese dato
+ * @param parametrosLeidos el número de parámetros que ha leído la función scanf()
+ * @param enter saber si el usuario ha introducido un enter al final
  */
 bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter)
 {
@@ -414,8 +419,6 @@ int menuTerritorios()
 {
 	int opcionTerritorio, contador;
 	bool opcionCorrecta = false;
-
-	char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
 
 	printf("Por favor, seleccione uno de la lista:\n");
 	for (int i = 0; i < 3; i++)
@@ -448,11 +451,6 @@ int menuEstaciones()
 	int opcionEstacion, contador;
 	bool opcionCorrecta = false;
 
-	char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
-									  "Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
-									  "Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
-									  "Torrejón de Ardoz"};
-
 	printf("Por favor, seleccione uno de la lista:\n");
 	for (int i = 0; i < 20; i++)
 	{
@@ -483,8 +481,6 @@ int menuMes()
 {
 	int opcionMes, contador;
 	bool opcionCorrecta = false;
-
-	char listadoMeses[12][11] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
 	printf("Por favor, seleccione uno de la lista:\n");
 	for (int i = 0; i < 12; i++)
