@@ -28,7 +28,7 @@ int filaMasLarga(FILE *);
 void limpiarBuffer();
 void solicitarDatos();
 bool validarEntero(int, int, int, int, char);
-//bool validaReal(float, int, float, float, char);
+bool validaReal(float, int, float, float, char);
 int menuTerritorios();
 int menuEstaciones();
 int menuMes();
@@ -396,10 +396,7 @@ void solicitarDatos()
 		}
 		else
 		{
-			printf("\testo se validaria con el validarReal %f\n", datoRealLeido);
-			printf("Pulse intro para continuar"); //Esto debe ir dentro de la función al final
-			datoCorrecto = true;
-			limpiarBuffer();
+			datoCorrecto = validaReal(datoRealLeido, listaTamanosMinimos[datoActual], (float) listaTamanosMaximos[datoActual], (float) cantidadDatosLeidos, enter);
 		}
 
 		if (datoCorrecto)
@@ -448,6 +445,28 @@ bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int para
 				datoCorrecto = true;
 			}
 	}
+
+	printf("     Pulse intro para continuar");
+	limpiarBuffer();
+	return datoCorrecto;
+}
+
+/**
+ * @param numeroLeido el número que ha introducido el usuario
+ * @param tamanoMinimo el rango mínimo de ese dato
+ * @param tamanoMaximo el rango máximo de ese dato
+ * @param parametrosLeidos el número de parámetros que ha leído la función scanf()
+ * @param enter saber si el usuario ha introducido un enter al final
+ */
+bool validaReal(float numeroLeido, int tamanoMinimo, float tamanoMaximo, float parametrosLeidos, char enter)
+{
+
+	bool datoCorrecto = false;
+
+	if (parametrosLeidos == 2.0f)
+		if (enter == '\n')
+			if (numeroLeido >= tamanoMinimo && numeroLeido <= tamanoMaximo)
+				datoCorrecto = true;
 
 	printf("     Pulse intro para continuar");
 	limpiarBuffer();
@@ -541,7 +560,7 @@ int menuEstaciones(int territorioSeleccionado)
 		}
 	}
 
-	opcionEstacion+=sumar; 
+	opcionEstacion += sumar;
 	opcionEstacion--;
 
 	return opcionEstacion;
