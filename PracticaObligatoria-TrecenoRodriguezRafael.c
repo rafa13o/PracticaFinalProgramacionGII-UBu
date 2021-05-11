@@ -32,6 +32,7 @@ bool validaReal(float, int, float, float, char);
 int menuTerritorios();
 int menuEstaciones();
 int menuMes();
+bool clonarArchivo();
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
@@ -42,6 +43,8 @@ const char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castell
 const char listadoMeses[12][11] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 const int listaTamanosMinimos[] = {-20, -20, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 const int listaTamanosMaximos[] = {50, 50, 50, 300, 100, 366, 366, 20, 30, 50, 50, 250, 2000};
+const char nombreFicheroInicial[] = "ValoresClimatologicosFINAL.csv";
+const char nombreFicheroFinal[] = "ValoresClimatologicosFINAL_V2.csv";
 
 int main()
 {
@@ -122,7 +125,7 @@ void seleccionarOpcion(int opcion)
 	switch (opcion)
 	{
 	case 1: // Total caracteres del fichero
-		ficheroTemperaturas = fopen("ValoresClimatologicosFINAL.csv", "r");
+		ficheroTemperaturas = fopen((char*)nombreFicheroInicial, "r");
 		if (ficheroTemperaturas == NULL) // Compruebo que el fichero se ha abierto correctamente
 		{
 			printf("Error al abrir el fichero");
@@ -133,7 +136,7 @@ void seleccionarOpcion(int opcion)
 		fclose(ficheroTemperaturas);
 		break;
 	case 2: // Número total de filas que hay en el fichero
-		ficheroTemperaturas = fopen("ValoresClimatologicosFINAL.csv", "r");
+		ficheroTemperaturas = fopen((char*)nombreFicheroInicial, "r");
 		if (ficheroTemperaturas == NULL) // Compruebo que el fichero se ha abierto correctamente
 		{
 			printf("Error al abrir el fichero");
@@ -144,7 +147,7 @@ void seleccionarOpcion(int opcion)
 		fclose(ficheroTemperaturas);
 		break;
 	case 3: // Fila más larga del fichero
-		ficheroTemperaturas = fopen("ValoresClimatologicosFINAL.csv", "r");
+		ficheroTemperaturas = fopen((char*)nombreFicheroInicial, "r");
 		if (ficheroTemperaturas == NULL) // Compruebo que el fichero se ha abierto correctamente
 		{
 			printf("Error al abrir el fichero");
@@ -405,6 +408,10 @@ void solicitarDatos()
 			printf("--- ¡¡El dato es incorrecto!!. Recuerde que el dato debe estar entre %d y %d.\n", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 	}
 
+	if(clonarArchivo){ //Si el archivo inicial se ha abierto, clonado y cerrado correctamente, escribo la nuyeva línea
+		
+	}
+
 	//-- DEBUG --
 	printf("\nCA: %s", comunidadAutonoma);
 	printf("\nEstación: %s", estacion);
@@ -423,6 +430,29 @@ void solicitarDatos()
 	printf("\nMedia vacíos: %.1f", diasVacios);
 	printf("\nMedia horas de sol: %d", horasDeSol);
 }
+
+
+bool clonarArchivo(){
+	FILE *archivoACopiar = fopen((char*)nombreFicheroInicial, "r");
+	FILE *ficheroClonado = fopen((char*)nombreFicheroFinal, "a+");
+
+	if (archivoACopiar == NULL){
+		printf("Hubo un problema al abrir el fichero de entrada");
+		return false;
+	}
+
+	if(archivoACopiar == NULL){
+		printf("Hubo un problema al abrir el fuchero de salida");
+		return false;
+	}
+
+	while(!feof(archivoACopiar)){
+		fscanf(archivoACopiar, ) // AQUI ME QUEDO
+	}
+
+	return true;
+}
+
 
 /**
  * @param numeroLeido el número que ha introducido el usuario
