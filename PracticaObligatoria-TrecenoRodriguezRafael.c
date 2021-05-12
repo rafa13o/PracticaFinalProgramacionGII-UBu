@@ -120,7 +120,7 @@ int solicitarOpcionMenu()
 void seleccionarOpcion(int opcion)
 {
 	FILE *ficheroTemperaturas; // El fichero que leo
-	int numeroFilas, numeroDeFilaMasLarga, numeroDeCaracteresTotales;
+	int numeroFilas, numeroDeFilaMasLarga, numeroDeCaracteresTotales, estadoFicheroCerrado;
 
 	switch (opcion)
 	{
@@ -133,7 +133,14 @@ void seleccionarOpcion(int opcion)
 		}
 		numeroDeCaracteresTotales = contarCaracteres(ficheroTemperaturas);
 		printf("Número total de caracteres: %d\n\n", numeroDeCaracteresTotales);
-		fclose(ficheroTemperaturas);
+		estadoFicheroCerrado = fclose(ficheroTemperaturas);
+		if (estadoFicheroCerrado == 0) // El fichero no se ha cerrado de forma correcta
+		{
+			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}else{
+			printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}
+		
 		break;
 	case 2: // Número total de filas que hay en el fichero
 		ficheroTemperaturas = fopen((char*)nombreFicheroInicial, "r");
@@ -144,7 +151,14 @@ void seleccionarOpcion(int opcion)
 		}
 		numeroFilas = numeroTotalFilas(ficheroTemperaturas);
 		printf("Número total de filas: %d\n\n", numeroFilas);
-		fclose(ficheroTemperaturas);
+		estadoFicheroCerrado = fclose(ficheroTemperaturas);
+		if (estadoFicheroCerrado == 0) // El fichero no se ha cerrado de forma correcta
+		{
+			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}else{
+			printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}
+		
 		break;
 	case 3: // Fila más larga del fichero
 		ficheroTemperaturas = fopen((char*)nombreFicheroInicial, "r");
@@ -155,7 +169,14 @@ void seleccionarOpcion(int opcion)
 		}
 		numeroDeFilaMasLarga = filaMasLarga(ficheroTemperaturas);
 		printf("La fila más larga es la fila %d\n\n", numeroDeFilaMasLarga);
-		fclose(ficheroTemperaturas);
+		estadoFicheroCerrado = fclose(ficheroTemperaturas);
+		if (estadoFicheroCerrado == 0) // El fichero no se ha cerrado de forma correcta
+		{
+			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}else{
+			printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}
+		
 		break;
 	case 4:
 		solicitarDatos();
@@ -447,7 +468,7 @@ bool clonarArchivo(){
 	}
 
 	while(!feof(archivoACopiar)){
-		fscanf(archivoACopiar, ) // AQUI ME QUEDO
+		//fscanf(archivoACopiar, ) // AQUI ME QUEDO
 	}
 
 	return true;
