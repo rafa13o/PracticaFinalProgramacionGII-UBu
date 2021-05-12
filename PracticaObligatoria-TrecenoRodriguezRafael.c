@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define LONG 30 // Posible longitud máxima de un string en este programa
+
 /*Definición de funciones*/
 int solicitarOpcionMenu();
 void seleccionarOpcion(int);
@@ -35,11 +37,11 @@ int menuMes();
 bool clonarArchivo();
 
 //--- Listas constantes ---
-const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y León", "Comunidad de Madrid"};
-const char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castellón", "Ávila", "Burgos aeropuerto", "León",
+const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
+const char listadoEstaciones[20][22] = {"Valencia", "Elche aeropuerto", "Castellón", "Avila", "Burgos aeropuerto", "Leon",
 										"Ponferrada", "Salamanca aeropuerto", "Segovia", "Soria", "Valladolid", "Valladolid aeropuerto", "Zamora",
 										"Colmenar Viejo", "Getafe", "Madrid Cuatro Vientos", "Madrid Retiro", "Madrid Aeropuerto", "Puerto de Navacerrada",
-										"Torrejón de Ardoz"};
+										"Torrejon de Ardoz"};
 const char listadoMeses[12][11] = {"Enero", "Febero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 const int listaTamanosMinimos[] = {-20, -20, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 const int listaTamanosMaximos[] = {50, 50, 50, 300, 100, 366, 366, 20, 30, 50, 50, 250, 2000};
@@ -125,7 +127,7 @@ void seleccionarOpcion(int opcion)
 	switch (opcion)
 	{
 	case 1: // Total caracteres del fichero
-		ficheroTemperaturas = fopen((char*)nombreFicheroInicial, "r");
+		ficheroTemperaturas = fopen((char *)nombreFicheroInicial, "r");
 		if (ficheroTemperaturas == NULL) // Compruebo que el fichero se ha abierto correctamente
 		{
 			printf("Error al abrir el fichero");
@@ -137,13 +139,15 @@ void seleccionarOpcion(int opcion)
 		if (estadoFicheroCerrado == 0) // El fichero no se ha cerrado de forma correcta
 		{
 			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
-		}else{
+		}
+		else
+		{
 			printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su lectura.\n*****\n");
 		}
-		
+
 		break;
 	case 2: // Número total de filas que hay en el fichero
-		ficheroTemperaturas = fopen((char*)nombreFicheroInicial, "r");
+		ficheroTemperaturas = fopen((char *)nombreFicheroInicial, "r");
 		if (ficheroTemperaturas == NULL) // Compruebo que el fichero se ha abierto correctamente
 		{
 			printf("Error al abrir el fichero");
@@ -155,13 +159,15 @@ void seleccionarOpcion(int opcion)
 		if (estadoFicheroCerrado == 0) // El fichero no se ha cerrado de forma correcta
 		{
 			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
-		}else{
+		}
+		else
+		{
 			printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su lectura.\n*****\n");
 		}
-		
+
 		break;
 	case 3: // Fila más larga del fichero
-		ficheroTemperaturas = fopen((char*)nombreFicheroInicial, "r");
+		ficheroTemperaturas = fopen((char *)nombreFicheroInicial, "r");
 		if (ficheroTemperaturas == NULL) // Compruebo que el fichero se ha abierto correctamente
 		{
 			printf("Error al abrir el fichero");
@@ -173,10 +179,12 @@ void seleccionarOpcion(int opcion)
 		if (estadoFicheroCerrado == 0) // El fichero no se ha cerrado de forma correcta
 		{
 			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
-		}else{
+		}
+		else
+		{
 			printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su lectura.\n*****\n");
 		}
-		
+
 		break;
 	case 4:
 		solicitarDatos();
@@ -420,7 +428,7 @@ void solicitarDatos()
 		}
 		else
 		{
-			datoCorrecto = validaReal(datoRealLeido, listaTamanosMinimos[datoActual], (float) listaTamanosMaximos[datoActual], (float) cantidadDatosLeidos, enter);
+			datoCorrecto = validaReal(datoRealLeido, listaTamanosMinimos[datoActual], (float)listaTamanosMaximos[datoActual], (float)cantidadDatosLeidos, enter);
 		}
 
 		if (datoCorrecto)
@@ -429,8 +437,21 @@ void solicitarDatos()
 			printf("--- ¡¡El dato es incorrecto!!. Recuerde que el dato debe estar entre %d y %d.\n", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 	}
 
-	if(clonarArchivo){ //Si el archivo inicial se ha abierto, clonado y cerrado correctamente, escribo la nuyeva línea
-		
+	if (clonarArchivo()) //Si el archivo inicial se ha abierto, clonado y cerrado correctamente, escribo la nueva línea
+	{
+		FILE *archivo = fopen((char *)nombreFicheroFinal, "a+");
+		if (archivo == NULL)
+		{
+			printf("Hubo un problema al abrir el fuchero de salida");
+		}
+		else
+		{
+			fprintf(archivo, "%s,%s,%d,%s,%.1f,%.1f,%.1f,%d,%d,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%d\n", comunidadAutonoma, estacion, altura, mes, tempMedia, mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla, diasHelada, diasVacios, horasDeSol);
+		}
+		if (fclose(archivo) != 0)
+		{
+			printf("Hubo un problema al cerrar el fichero de salida");
+		}
 	}
 
 	//-- DEBUG --
@@ -452,28 +473,55 @@ void solicitarDatos()
 	printf("\nMedia horas de sol: %d", horasDeSol);
 }
 
+bool clonarArchivo()
+{
+	FILE *archivoACopiar = fopen((char *)nombreFicheroInicial, "r");
+	FILE *ficheroClonado = fopen((char *)nombreFicheroFinal, "a+");
 
-bool clonarArchivo(){
-	FILE *archivoACopiar = fopen((char*)nombreFicheroInicial, "r");
-	FILE *ficheroClonado = fopen((char*)nombreFicheroFinal, "a+");
+	//char comunidadAutonoma[LONG], estacion[LONG], mes[LONG], altura[LONG], precipitacionMensualMedia[LONG], humedadMedia[LONG], tempMedia[LONG], mediaTempMax[LONG], mediaTempMin[LONG], diasLluvia[LONG], diasNieve[LONG], diasTempestad[LONG], diasNiebla[LONG], diasHelada[LONG], diasVacios[LONG], horasDeSol[LONG];
+	char enter;
 
-	if (archivoACopiar == NULL){
+	//int altura, precipitacionMensualMedia, humedadMedia;
+	int estadoFicheroEntrada, estadoFicheroSalida;
+	//float tempMedia, mediaTempMax, mediaTempMin, diasLluvia, diasNieve, diasTempestad, diasNiebla, diasHelada, diasVacios, horasDeSol;
+
+	if (archivoACopiar == NULL)
+	{
 		printf("Hubo un problema al abrir el fichero de entrada");
 		return false;
 	}
 
-	if(archivoACopiar == NULL){
+	if (archivoACopiar == NULL)
+	{
 		printf("Hubo un problema al abrir el fuchero de salida");
 		return false;
 	}
 
-	while(!feof(archivoACopiar)){
-		//fscanf(archivoACopiar, ) // AQUI ME QUEDO
+	char caracterLeido;
+
+	while ((caracterLeido = fgetc(archivoACopiar)) != EOF)
+	{
+		//caracterLeido=fgetc(archivoACopiar);
+		fputc(caracterLeido, ficheroClonado);
+	}
+
+	estadoFicheroEntrada = fclose(archivoACopiar);
+	estadoFicheroSalida = fclose(ficheroClonado);
+
+	if (estadoFicheroEntrada != 0)
+	{
+		printf("Hubo un problema al cerrar el fichero de entrada");
+		return false;
+	}
+
+	if (estadoFicheroSalida != 0)
+	{
+		printf("Hubo un problema al cerrar el fichero de salida");
+		return false;
 	}
 
 	return true;
 }
-
 
 /**
  * @param numeroLeido el número que ha introducido el usuario
