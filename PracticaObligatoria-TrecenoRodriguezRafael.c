@@ -1,12 +1,13 @@
 /**
  *
- * Programa en C que indica (dependiendo de lo que indique el usuario):
- * 	1) número total de caracteres
- * 	2) Número total de filas
- * 	3) Cuál es la fila más larga
+ * Programa en C que realiza (dependiendo de lo que indique el usuario):
+ * 	1) Indica el número total de caracteres
+ * 	2) Indica el número total de filas
+ * 	3) Indica Cuál es la fila más larga
+ * 	4) Clona el archivo y crea una nueva línea al final
  *
  * @author TRECEÑO RODRIGUEZ, RAFAEL (rafa13o)
- * @date 27-04-2021 Tuesday
+ * @date 13-05-2021 Tuesday
  * @version 2.0v
  */
 
@@ -358,11 +359,10 @@ void solicitarDatos()
 	opcionMes = menuMes();
 	mes = (char *)listadoMeses[opcionMes];
 
-	//printf("Ha seleccionado usted:\n\tCA: %d %s\n\tEstacion: %d %s\n\tMes: %d %s\n\n", opcionTerritorio, comunidadAutonoma, opcionEstacion, estacion, opcionMes, mes);
-
-	while (datoActual < 13) // para comprobar todo
+	while (datoActual < 13) // Para comprobar todo
 	{
-		/** Lo que voy haciendo es recoger los datos en datoRealLeido (para los float) 
+		/** 
+		 * Lo que voy haciendo es recoger los datos en datoRealLeido (para los float) 
 		 * y datoEnteroLeido (para los int)
 		 * El dato leído lo guardo en la variable correspondiente y compruebo 
 		 * que el dato sea correcto. Si no es correcto, volverá a pedirlo y
@@ -440,18 +440,18 @@ void solicitarDatos()
 			break;
 		}
 
-		if (datoActual == 3 || datoActual == 4 || datoActual == 11 || datoActual == 12)
+		if (datoActual == 3 || datoActual == 4 || datoActual == 11 || datoActual == 12) // Datos de tipo entero
 		{
 			datoCorrecto = validarEntero(datoEnteroLeido, listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual], cantidadDatosLeidos, enter);
 		}
-		else
+		else // Datos de tipo float
 		{
 			datoCorrecto = validaReal(datoRealLeido, listaTamanosMinimos[datoActual], (float)listaTamanosMaximos[datoActual], (float)cantidadDatosLeidos, enter);
 		}
 
-		if (datoCorrecto)
+		if (datoCorrecto) // El dato introducido por el usuario es correcto
 			datoActual++;
-		else
+		else // El dato introducido por el usuario es incorrecto
 			printf("--- ¡¡El dato es incorrecto!!. Recuerde que el dato debe estar entre %d y %d.\n", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 	}
 
@@ -473,52 +473,34 @@ void solicitarDatos()
 			printf("Hubo un problema al cerrar el fichero de salida");
 		}
 	}
-
-	//-- DEBUG --
-	printf("\nCA: %s", comunidadAutonoma);
-	printf("\nEstación: %s", estacion);
-	printf("\nAltura: %d", altura);
-	printf("\nMes: %s", mes);
-	printf("\nTemperatura Media: %.1f", tempMedia);
-	printf("\nMedia temp. Maxima: %.1f", mediaTempMax);
-	printf("\nMedia temp. Mínima: %.1f", mediaTempMin);
-	printf("\nMedia precipitaciones: %d", precipitacionMensualMedia);
-	printf("\nMedia humedad: %d", humedadMedia);
-	printf("\nMedia lluvia: %.1f", diasLluvia);
-	printf("\nMedia nieve: %.1f", diasNieve);
-	printf("\nMedia tempestad: %.1f", diasTempestad);
-	printf("\nMedia niebla: %.1f", diasNiebla);
-	printf("\nMedia helada: %.1f", diasHelada);
-	printf("\nMedia vacíos: %.1f", diasVacios);
-	printf("\nMedia horas de sol: %d", horasDeSol);
 }
 
 /**
- * Realiza la clonación del archivo de entrada) al archivo de salida
+ * Realiza la clonación del archivo de entrada al archivo de salida
  * 
  * @return true si lo ha podido hacer correctamente (apertura, clonación, cierre). False en caso contrario.
  */
 bool clonarArchivo()
 {
-	char enter, caracterLeido;
+	char caracterLeido;
 	int estadoFicheroEntrada, estadoFicheroSalida; // Almacenan el retorno del estado en que se han cerrado. Si los archivos se cerraron bien serán 0.
 
 	FILE *archivoACopiar = fopen((char *)nombreFicheroInicial, "r");
 	FILE *ficheroClonado = fopen((char *)nombreFicheroFinal, "a+");
 
-	if (archivoACopiar == NULL)
+	if (archivoACopiar == NULL) // Compruebo que el archivo se ha abierto correctamente
 	{
 		printf("Hubo un problema al abrir el fichero de entrada");
 		return false;
 	}
 
-	if (archivoACopiar == NULL)
+	if (archivoACopiar == NULL) // Compruebo que el archivo se ha abierto correctamente
 	{
 		printf("Hubo un problema al abrir el fuchero de salida");
 		return false;
 	}
 
-	while ((caracterLeido = fgetc(archivoACopiar)) != EOF)
+	while ((caracterLeido = fgetc(archivoACopiar)) != EOF) // Copio todos los valores menos el EOF
 	{
 		fputc(caracterLeido, ficheroClonado);
 	}
@@ -542,6 +524,10 @@ bool clonarArchivo()
 }
 
 /**
+ * Función que comprueba si el valor entero introducido por el usuario es correcto.
+ * El valor deberá estar entre los rangos tamanoMinimo y tamanoMaximo.
+ * Devuelve true si el valor es correcto (cumple las condiciones). false en caso contrario.
+ * 
  * @param numeroLeido el número que ha introducido el usuario
  * @param tamanoMinimo el rango mínimo de ese dato
  * @param tamanoMaximo el rango máximo de ese dato
@@ -570,6 +556,10 @@ bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int para
 }
 
 /**
+ * Función que comprueba si el valor float introducido por el usuario es correcto.
+ * El valor deberá estar entre los rangos tamanoMinimo y tamanoMaximo.
+ * Devuelve true si el valor es correcto (cumple las condiciones). false en caso contrario.
+ * 
  * @param numeroLeido el número que ha introducido el usuario
  * @param tamanoMinimo el rango mínimo de ese dato
  * @param tamanoMaximo el rango máximo de ese dato
@@ -689,7 +679,7 @@ int menuEstaciones(int territorioSeleccionado)
 	}
 
 	opcionEstacion += sumar; // Cantidad que hay que sumar al número para que dé el índice
-	opcionEstacion--; // Para que dé el índice
+	opcionEstacion--;		 // Para que dé el índice
 
 	return opcionEstacion;
 }
