@@ -1,12 +1,13 @@
 /**
  *
- * Programa en C que indica (dependiendo de lo que indique el usuario):
- * 	1) número total de caracteres
- * 	2) Número total de filas
- * 	3) Cuál es la fila más larga
+ * Programa en C que realiza (dependiendo de lo que indique el usuario):
+ * 	1) Indica el número total de caracteres
+ * 	2) Indica el número total de filas
+ * 	3) Indica Cuál es la fila más larga
+ * 	4) Clona el archivo y crea una nueva línea al final
  *
  * @author TRECEÑO RODRIGUEZ, RAFAEL (rafa13o)
- * @date 27-04-2021 Tuesday
+ * @date 13-05-2021 Tuesday
  * @version 2.0v
  */
 
@@ -136,7 +137,7 @@ void seleccionarOpcion(int opcion)
 		numeroDeCaracteresTotales = contarCaracteres(ficheroTemperaturas);
 		printf("Número total de caracteres: %d\n\n", numeroDeCaracteresTotales);
 		estadoFicheroCerrado = fclose(ficheroTemperaturas);
-		if (estadoFicheroCerrado == 0) // El fichero no se ha cerrado de forma correcta
+		if (estadoFicheroCerrado == 0) // El fichero se ha cerrado de forma correcta
 		{
 			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
 		}
@@ -156,7 +157,7 @@ void seleccionarOpcion(int opcion)
 		numeroFilas = numeroTotalFilas(ficheroTemperaturas);
 		printf("Número total de filas: %d\n\n", numeroFilas);
 		estadoFicheroCerrado = fclose(ficheroTemperaturas);
-		if (estadoFicheroCerrado == 0) // El fichero no se ha cerrado de forma correcta
+		if (estadoFicheroCerrado == 0) // El fichero se ha cerrado de forma correcta
 		{
 			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
 		}
@@ -176,7 +177,7 @@ void seleccionarOpcion(int opcion)
 		numeroDeFilaMasLarga = filaMasLarga(ficheroTemperaturas);
 		printf("La fila más larga es la fila %d\n\n", numeroDeFilaMasLarga);
 		estadoFicheroCerrado = fclose(ficheroTemperaturas);
-		if (estadoFicheroCerrado == 0) // El fichero no se ha cerrado de forma correcta
+		if (estadoFicheroCerrado == 0) // El fichero se ha cerrado de forma correcta
 		{
 			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
 		}
@@ -298,12 +299,30 @@ int filaMasLarga(FILE *fichero)
 	return numeroDeFilaMaximo;
 }
 
+/**
+ * Función que va pidiendo al usuario los datos de la nueva línea.
+ * Primero pregunta por la comunidad, estación y mes a través de un menú.
+ * Luego, pregunta por cada dato y el usuario los introduce por teclado.
+ * Llama a las funciones validarEntero() y validaReal() para ver si el dato 
+ * 		introducido es correcto. Si es correcto, pide el siguiente dato.
+ * 		Si no lo es, vuelve a pedir el mismo dato.
+ * Al final, llama a clonarArchivo() para clonar el archivo y, si se ha 
+ * 		realizado bien, se añade la nueva línea al final del archivo.
+ */
 void solicitarDatos()
 {
-	bool datoCorrecto = false;
-	int datoActual = 0; // Dato que tengo que pedir y comprobar
+	bool datoCorrecto = false; // Si el dato introducido por el usuario es correcto, cambiará su valor a true
+	int datoActual = 0;		   // Dato que tengo que pedir y comprobar
+
+	/**
+	 * opcionTerritorio = número del territorio que ha seleccionado el usuario (el índice en el array)
+	 * opcionEstacion = número de la estación que ha seleccionado el usuario (el índice en el array)
+	 * opcionMes = número del mes que ha seleccionado el usuario (el índice en el array)
+	 * cantidadDatosLeidos = cantidad de datos que lee la función scanf()
+	 * datoEnteroLeido = dato entero que ha introducido el usuario
+	 */
 	int opcionTerritorio, opcionEstacion, opcionMes, cantidadDatosLeidos, datoEnteroLeido;
-	float datoRealLeido;
+	float datoRealLeido;					  // Dato real que ha introducido el usuario
 	char *comunidadAutonoma, *estacion, *mes; // Strings
 	char enter;								  // Para comprobar si el usuario ha introducido un enter
 
@@ -340,11 +359,10 @@ void solicitarDatos()
 	opcionMes = menuMes();
 	mes = (char *)listadoMeses[opcionMes];
 
-	//printf("Ha seleccionado usted:\n\tCA: %d %s\n\tEstacion: %d %s\n\tMes: %d %s\n\n", opcionTerritorio, comunidadAutonoma, opcionEstacion, estacion, opcionMes, mes);
-
-	while (datoActual < 13) // para comprobar todo
+	while (datoActual < 13) // Para comprobar todo
 	{
-		/** Lo que voy haciendo es recoger los datos en datoRealLeido (para los float) 
+		/** 
+		 * Lo que voy haciendo es recoger los datos en datoRealLeido (para los float) 
 		 * y datoEnteroLeido (para los int)
 		 * El dato leído lo guardo en la variable correspondiente y compruebo 
 		 * que el dato sea correcto. Si no es correcto, volverá a pedirlo y
@@ -422,25 +440,26 @@ void solicitarDatos()
 			break;
 		}
 
-		if (datoActual == 3 || datoActual == 4 || datoActual == 11 || datoActual == 12)
+		if (datoActual == 3 || datoActual == 4 || datoActual == 11 || datoActual == 12) // Datos de tipo entero
 		{
 			datoCorrecto = validarEntero(datoEnteroLeido, listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual], cantidadDatosLeidos, enter);
 		}
-		else
+		else // Datos de tipo float
 		{
 			datoCorrecto = validaReal(datoRealLeido, listaTamanosMinimos[datoActual], (float)listaTamanosMaximos[datoActual], (float)cantidadDatosLeidos, enter);
 		}
 
-		if (datoCorrecto)
+		if (datoCorrecto) // El dato introducido por el usuario es correcto
 			datoActual++;
-		else
+		else // El dato introducido por el usuario es incorrecto
 			printf("--- ¡¡El dato es incorrecto!!. Recuerde que el dato debe estar entre %d y %d.\n", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 	}
 
 	if (clonarArchivo()) //Si el archivo inicial se ha abierto, clonado y cerrado correctamente, escribo la nueva línea
 	{
-		FILE *archivo = fopen((char *)nombreFicheroFinal, "a+");
-		if (archivo == NULL)
+		FILE *archivo = fopen((char *)nombreFicheroFinal, "a+"); // Abro el fichero en modo de agregar al final
+
+		if (archivo == NULL) // Compruebo que el archivo se ha abierto correctamente
 		{
 			printf("Hubo un problema al abrir el fuchero de salida");
 		}
@@ -448,73 +467,54 @@ void solicitarDatos()
 		{
 			fprintf(archivo, "%s,%s,%d,%s,%.1f,%.1f,%.1f,%d,%d,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%d\n", comunidadAutonoma, estacion, altura, mes, tempMedia, mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla, diasHelada, diasVacios, horasDeSol);
 		}
-		if (fclose(archivo) != 0)
+
+		if (fclose(archivo) != 0) // Compruebo si el archivo no se ha cerrado correctamente
 		{
 			printf("Hubo un problema al cerrar el fichero de salida");
 		}
 	}
-
-	//-- DEBUG --
-	printf("\nCA: %s", comunidadAutonoma);
-	printf("\nEstación: %s", estacion);
-	printf("\nAltura: %d", altura);
-	printf("\nMes: %s", mes);
-	printf("\nTemperatura Media: %.1f", tempMedia);
-	printf("\nMedia temp. Maxima: %.1f", mediaTempMax);
-	printf("\nMedia temp. Mínima: %.1f", mediaTempMin);
-	printf("\nMedia precipitaciones: %d", precipitacionMensualMedia);
-	printf("\nMedia humedad: %d", humedadMedia);
-	printf("\nMedia lluvia: %.1f", diasLluvia);
-	printf("\nMedia nieve: %.1f", diasNieve);
-	printf("\nMedia tempestad: %.1f", diasTempestad);
-	printf("\nMedia niebla: %.1f", diasNiebla);
-	printf("\nMedia helada: %.1f", diasHelada);
-	printf("\nMedia vacíos: %.1f", diasVacios);
-	printf("\nMedia horas de sol: %d", horasDeSol);
 }
 
+/**
+ * Realiza la clonación del archivo de entrada al archivo de salida
+ * 
+ * @return true si lo ha podido hacer correctamente (apertura, clonación, cierre). False en caso contrario.
+ */
 bool clonarArchivo()
 {
+	char caracterLeido;
+	int estadoFicheroEntrada, estadoFicheroSalida; // Almacenan el retorno del estado en que se han cerrado. Si los archivos se cerraron bien serán 0.
+
 	FILE *archivoACopiar = fopen((char *)nombreFicheroInicial, "r");
 	FILE *ficheroClonado = fopen((char *)nombreFicheroFinal, "a+");
 
-	//char comunidadAutonoma[LONG], estacion[LONG], mes[LONG], altura[LONG], precipitacionMensualMedia[LONG], humedadMedia[LONG], tempMedia[LONG], mediaTempMax[LONG], mediaTempMin[LONG], diasLluvia[LONG], diasNieve[LONG], diasTempestad[LONG], diasNiebla[LONG], diasHelada[LONG], diasVacios[LONG], horasDeSol[LONG];
-	char enter;
-
-	//int altura, precipitacionMensualMedia, humedadMedia;
-	int estadoFicheroEntrada, estadoFicheroSalida;
-	//float tempMedia, mediaTempMax, mediaTempMin, diasLluvia, diasNieve, diasTempestad, diasNiebla, diasHelada, diasVacios, horasDeSol;
-
-	if (archivoACopiar == NULL)
+	if (archivoACopiar == NULL) // Compruebo que el archivo se ha abierto correctamente
 	{
 		printf("Hubo un problema al abrir el fichero de entrada");
 		return false;
 	}
 
-	if (archivoACopiar == NULL)
+	if (archivoACopiar == NULL) // Compruebo que el archivo se ha abierto correctamente
 	{
 		printf("Hubo un problema al abrir el fuchero de salida");
 		return false;
 	}
 
-	char caracterLeido;
-
-	while ((caracterLeido = fgetc(archivoACopiar)) != EOF)
+	while ((caracterLeido = fgetc(archivoACopiar)) != EOF) // Copio todos los valores menos el EOF
 	{
-		//caracterLeido=fgetc(archivoACopiar);
 		fputc(caracterLeido, ficheroClonado);
 	}
 
 	estadoFicheroEntrada = fclose(archivoACopiar);
 	estadoFicheroSalida = fclose(ficheroClonado);
 
-	if (estadoFicheroEntrada != 0)
+	if (estadoFicheroEntrada != 0) // Compruebo si ha ocurrido algún error (resultado distinto de 0)
 	{
 		printf("Hubo un problema al cerrar el fichero de entrada");
 		return false;
 	}
 
-	if (estadoFicheroSalida != 0)
+	if (estadoFicheroSalida != 0) // Compruebo si ha ocurrido algún error (resultado distinto de 0)
 	{
 		printf("Hubo un problema al cerrar el fichero de salida");
 		return false;
@@ -524,11 +524,16 @@ bool clonarArchivo()
 }
 
 /**
+ * Función que comprueba si el valor entero introducido por el usuario es correcto.
+ * El valor deberá estar entre los rangos tamanoMinimo y tamanoMaximo.
+ * Devuelve true si el valor es correcto (cumple las condiciones). false en caso contrario.
+ * 
  * @param numeroLeido el número que ha introducido el usuario
  * @param tamanoMinimo el rango mínimo de ese dato
  * @param tamanoMaximo el rango máximo de ese dato
  * @param parametrosLeidos el número de parámetros que ha leído la función scanf()
  * @param enter saber si el usuario ha introducido un enter al final
+ * @return true si el valor cumple las condiciones. False en caso contrario.
  */
 bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int parametrosLeidos, char enter)
 {
@@ -551,18 +556,25 @@ bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int para
 }
 
 /**
+ * Función que comprueba si el valor float introducido por el usuario es correcto.
+ * El valor deberá estar entre los rangos tamanoMinimo y tamanoMaximo.
+ * Devuelve true si el valor es correcto (cumple las condiciones). false en caso contrario.
+ * 
  * @param numeroLeido el número que ha introducido el usuario
  * @param tamanoMinimo el rango mínimo de ese dato
  * @param tamanoMaximo el rango máximo de ese dato
  * @param parametrosLeidos el número de parámetros que ha leído la función scanf()
  * @param enter saber si el usuario ha introducido un enter al final
+ * @return true si el valor cumple las condiciones. False en caso contrario.
  */
 bool validaReal(float numeroLeido, int tamanoMinimo, float tamanoMaximo, float parametrosLeidos, char enter)
 {
 
 	bool datoCorrecto = false;
 
+	// Primero compruebo que el scanf() solo devuelva dos valores (el valor del dato y el intro)
 	if (parametrosLeidos == 2.0f)
+		// Compruebo que el enter sea verdaderamente un enter
 		if (enter == '\n')
 			if (numeroLeido >= tamanoMinimo && numeroLeido <= tamanoMaximo)
 				datoCorrecto = true;
@@ -573,7 +585,9 @@ bool validaReal(float numeroLeido, int tamanoMinimo, float tamanoMaximo, float p
 }
 
 /**
- * 
+ * Imprime un menú con las comunidades autónomas y comprueba que el dato introducido sea correcto.
+ *
+ * @return el índice en el que se encuentra la comunidad en el array.
  */
 int menuTerritorios()
 {
@@ -587,7 +601,7 @@ int menuTerritorios()
 		printf("\t%d.- %s\n", contador, listadoComunidadesAutonomas[i]);
 	}
 
-	while (!opcionCorrecta)
+	while (!opcionCorrecta) // Comprueba que la opción introducida por el usuario sea correcta
 	{
 		printf("\t ---> ");
 		scanf("%d%*[^\n]", &opcionTerritorio);
@@ -604,7 +618,12 @@ int menuTerritorios()
 }
 
 /**
+ * Imprime un menú con las estaciones y comprueba que el dato introducido sea correcto.
  * 
+ * @param territorioSeleccionado el territorio que seleccionó el usuario (ya que las 
+ * 		estaciones deben ir acordes al territorio). Así, solo imprimo las estaciones
+ * 		del territorio seleccionado.
+ * @return el índice en el que se encuentra la estación en el array
  */
 int menuEstaciones(int territorioSeleccionado)
 {
@@ -648,7 +667,7 @@ int menuEstaciones(int territorioSeleccionado)
 		}
 	}
 
-	while (!opcionCorrecta)
+	while (!opcionCorrecta) // Comprueba que la opción introducida por el usuario sea correcta
 	{
 		printf("\t ---> ");
 		scanf("%d%*[^\n]", &opcionEstacion);
@@ -659,14 +678,16 @@ int menuEstaciones(int territorioSeleccionado)
 		}
 	}
 
-	opcionEstacion += sumar;
-	opcionEstacion--;
+	opcionEstacion += sumar; // Cantidad que hay que sumar al número para que dé el índice
+	opcionEstacion--;		 // Para que dé el índice
 
 	return opcionEstacion;
 }
 
 /**
+ * Imprime un menú con los meses y comprueba que el dato introducido sea correcto.
  * 
+ * @return el índice en el que se encuentra la estación en el array
  */
 int menuMes()
 {
@@ -680,7 +701,7 @@ int menuMes()
 		printf("\t%d.- %s\n", contador, listadoMeses[i]);
 	}
 
-	while (!opcionCorrecta)
+	while (!opcionCorrecta) // Comprueba que la opción introducida por el usuario sea correcta
 	{
 		printf("\t ---> ");
 		scanf("%d%*[^\n]", &opcionMes);
@@ -691,7 +712,7 @@ int menuMes()
 		}
 	}
 
-	opcionMes--; // Le resto uno porque el usuario cuenta de 1 a 3, pero el array va de 0 a 2
+	opcionMes--; // Para que dé el índice
 
 	return opcionMes;
 }
