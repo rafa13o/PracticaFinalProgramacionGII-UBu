@@ -372,67 +372,67 @@ void solicitarDatos()
 		switch (datoActual)
 		{
 		case 0: //tempMedia
-			printf("Por favor, dame un valor para la TEMPERATURA MEDIA: --> ");
+			printf("Por favor, dame un valor para la TEMPERATURA MEDIA [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
 			tempMedia = datoRealLeido;
 			break;
 		case 1: // mediaTempMax
-			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÁXIMAS: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÁXIMAS [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
 			mediaTempMax = datoRealLeido;
 			break;
 		case 2: // mediaTempMin
-			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÍNIMAS: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE LAS TEMPERATURAS MÍNIMAS [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
 			mediaTempMin = datoRealLeido;
 			break;
 		case 3: // precipitacionMensualMedia
-			printf("Por favor, dame un valor para la MEDIA DE LAS PRECIPITACIONES: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE LAS PRECIPITACIONES [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%d%c", &datoEnteroLeido, &enter);
 			precipitacionMensualMedia = datoEnteroLeido;
 			break;
 		case 4: // humedadMedia
-			printf("Por favor, dame un valor para la MEDIA DE LA HUMEDAD RELATIVA: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE LA HUMEDAD RELATIVA [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%d%c", &datoEnteroLeido, &enter);
 			humedadMedia = datoEnteroLeido;
 			break;
 		case 5: // diasLluvia
-			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE LLUVIA: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE LLUVIA [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
 			diasLluvia = datoRealLeido;
 			break;
 		case 6: // diasNieve
-			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEVE: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEVE [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
 			diasNieve = datoRealLeido;
 			break;
 		case 7: // diasTempestad
-			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE TEMPESTAD: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE TEMPESTAD [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
 			diasTempestad = datoRealLeido;
 			break;
 		case 8: // diasNiebla
-			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEBLA: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE NIEBLA [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
 			diasNiebla = datoRealLeido;
 			break;
 		case 9: // diasHelada
-			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE HELADA: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS DE HELADA [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
 			diasHelada = datoRealLeido;
 			break;
 		case 10: // diasVacios
-			printf("Por favor, dame un valor para la MEDIA DE DÍAS SIN DATOS: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE DÍAS SIN DATOS [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%f%c", &datoRealLeido, &enter);
 			diasVacios = datoRealLeido;
 			break;
 		case 11: // horasDeSol
-			printf("Por favor, dame un valor para la MEDIA DE HORAS DE SOL: --> ");
+			printf("Por favor, dame un valor para la MEDIA DE HORAS DE SOL [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%d%c", &datoEnteroLeido, &enter);
 			horasDeSol = datoEnteroLeido;
 			break;
 		case 12: // altura
-			printf("Por favor, dame un valor para la ALTURA: --> ");
+			printf("Por favor, dame un valor para la ALTURA [%d,%d]: --> ", listaTamanosMinimos[datoActual], listaTamanosMaximos[datoActual]);
 			cantidadDatosLeidos = scanf("%d%c", &datoEnteroLeido, &enter);
 			altura = datoEnteroLeido;
 			break;
