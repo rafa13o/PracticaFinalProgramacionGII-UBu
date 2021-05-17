@@ -36,6 +36,7 @@ int menuTerritorios();
 int menuEstaciones();
 int menuMes();
 bool clonarArchivo();
+float temperaturaMedia(FILE *, char *, char *);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -91,12 +92,13 @@ int solicitarOpcionMenu()
 		printf("\n\t2.- Número total de filas");
 		printf("\n\t3.- Fila más larga");
 		printf("\n\t4.- Añadir una nueva fila");
+		printf("\n\t5.- Temperatura media del mes de mayo en Castilla y León")
 		printf("\n\t0.- Salir");
 		printf("\n**************************************************************************");
 		printf("\n ---> ");
 		scanf("%c%*[^\n]", &charOpcion); // Para ignorar el \n
 
-		if (charOpcion >= 48 && charOpcion <= 52) // 48(Ascii)=0 y 52(Ascii)=4
+		if (charOpcion >= 48 && charOpcion <= 53) // 48(Ascii)=0 y 53(Ascii)=5
 		{
 			opcionCorrecta = true;
 		}
@@ -189,6 +191,9 @@ void seleccionarOpcion(int opcion)
 		break;
 	case 4:
 		solicitarDatos();
+		break;
+	case 5:
+		temperaturaMedia(/*fichero*/, /*comunidad*/, /*mes*/);
 		break;
 	default:
 		printf("Saliendo...\n\n\n");
@@ -716,6 +721,17 @@ int menuMes()
 
 	return opcionMes;
 }
+
+
+/**
+ * @param fichero fichero desde el que se va a filtrar
+ * @param comunidadAutonoma comunidad autónoma por la que se quiere filtrar
+ * @param mes mes por el que se va a filtrar
+ */
+float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes){
+	return 0.0f;
+}
+
 
 /**
  * Función para limpiar el buffer
