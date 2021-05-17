@@ -31,7 +31,7 @@ int filaMasLarga(FILE *);
 void limpiarBuffer();
 void solicitarDatos();
 bool validarEntero(int, int, int, int, char);
-bool validaReal(float, int, float, float, char);
+bool validaReal(float, int, float, int, char);
 int menuTerritorios();
 int menuEstaciones();
 int menuMes();
@@ -446,7 +446,7 @@ void solicitarDatos()
 		}
 		else // Datos de tipo float
 		{
-			datoCorrecto = validaReal(datoRealLeido, listaTamanosMinimos[datoActual], (float)listaTamanosMaximos[datoActual], (float)cantidadDatosLeidos, enter);
+			datoCorrecto = validaReal(datoRealLeido, listaTamanosMinimos[datoActual], (float)listaTamanosMaximos[datoActual], cantidadDatosLeidos, enter);
 		}
 
 		if (datoCorrecto) // El dato introducido por el usuario es correcto
@@ -567,7 +567,7 @@ bool validarEntero(int numeroLeido, int tamanoMinimo, int tamanoMaximo, int para
  * @param enter saber si el usuario ha introducido un enter al final
  * @return true si el valor cumple las condiciones. False en caso contrario.
  */
-bool validaReal(float numeroLeido, int tamanoMinimo, float tamanoMaximo, float parametrosLeidos, char enter)
+bool validaReal(float numeroLeido, int tamanoMinimo, float tamanoMaximo, int parametrosLeidos, char enter)
 {
 
 	bool datoCorrecto = false;
