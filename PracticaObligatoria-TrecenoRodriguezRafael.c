@@ -193,7 +193,23 @@ void seleccionarOpcion(int opcion)
 		solicitarDatos();
 		break;
 	case 5:
-		temperaturaMedia(/*fichero*/, /*comunidad*/, /*mes*/);
+		ficheroTemperaturas = fopen((char *)nombreFicheroInicial, "r");
+		if (ficheroTemperaturas == NULL) // Compruebo que el fichero se ha abierto correctamente
+		{
+			printf("Error al abrir el fichero");
+			break; // Finalizo ejecución
+		}
+		// Castilla y león es la comunidad 1 del listado. Mayo es el mes 4 del listado (posición)
+		temperaturaMedia(ficheroTemperaturas, listadoComunidadesAutonomas[1], listadoMeses[4]);
+		estadoFicheroCerrado = fclose(ficheroTemperaturas);
+		if (estadoFicheroCerrado == 0) // El fichero se ha cerrado de forma correcta
+		{
+			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}
+		else
+		{
+			printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}
 		break;
 	default:
 		printf("Saliendo...\n\n\n");
