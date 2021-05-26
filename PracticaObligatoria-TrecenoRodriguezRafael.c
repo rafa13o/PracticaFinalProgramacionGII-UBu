@@ -19,8 +19,19 @@
  */
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
-#define LONG 30 // Posible longitud máxima de un string en este programa
+#define LONG 254 // Posible longitud máxima de un string en este programa
+
+/* Definición de estructuras*/
+struct datosArchivo
+{
+	char comunidadAutonoma[23];
+	char estacion[24];
+	char mes[13];
+	float tempMedia, mediaTempMax, mediaTempMin, diasLluvia, diasNieve, diasTempestad, diasNiebla, diasHelada, diasVacios;
+	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
+};
 
 /*Definición de funciones*/
 int solicitarOpcionMenu();
@@ -36,6 +47,8 @@ int menuTerritorios();
 int menuEstaciones();
 int menuMes();
 bool clonarArchivo();
+float temperaturaMedia(FILE *, char *, char *);
+void crearEstructura(struct datosArchivo *[]);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -91,12 +104,13 @@ int solicitarOpcionMenu()
 		printf("\n\t2.- Número total de filas");
 		printf("\n\t3.- Fila más larga");
 		printf("\n\t4.- Añadir una nueva fila");
+		printf("\n\t5.- Temperatura media del mes de mayo en Castilla y León");
 		printf("\n\t0.- Salir");
 		printf("\n**************************************************************************");
 		printf("\n ---> ");
 		scanf("%c%*[^\n]", &charOpcion); // Para ignorar el \n
 
-		if (charOpcion >= 48 && charOpcion <= 52) // 48(Ascii)=0 y 52(Ascii)=4
+		if (charOpcion >= 48 && charOpcion <= 53) // 48(Ascii)=0 y 53(Ascii)=5
 		{
 			opcionCorrecta = true;
 		}
@@ -189,6 +203,26 @@ void seleccionarOpcion(int opcion)
 		break;
 	case 4:
 		solicitarDatos();
+		break;
+	case 5:
+		ficheroTemperaturas = fopen((char *)nombreFicheroInicial, "r");
+		if (ficheroTemperaturas == NULL) // Compruebo que el fichero se ha abierto correctamente
+		{
+			printf("Error al abrir el fichero");
+			break; // Finalizo ejecución
+		}
+		// Castilla y león es la comunidad 1 del listado. Mayo es el mes 4 del listado (posición)
+		float media = temperaturaMedia(ficheroTemperaturas, (char *)listadoComunidadesAutonomas[1], (char *)listadoMeses[4]);
+		printf("Temperatura media de las estaciones meteorológicas de CASTILLA Y LEON en el mes de MAYO es: %.1f", media);
+		estadoFicheroCerrado = fclose(ficheroTemperaturas);
+		if (estadoFicheroCerrado == 0) // El fichero se ha cerrado de forma correcta
+		{
+			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}
+		else
+		{
+			printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}
 		break;
 	default:
 		printf("Saliendo...\n\n\n");
@@ -715,6 +749,72 @@ int menuMes()
 	opcionMes--; // Para que dé el índice
 
 	return opcionMes;
+}
+
+/**
+ * Lee el fihcero que se pasa por parámetro, crea una estructura de tipo datosArchivo 
+ * con los datos que hay en él y luego los guarda en un array de estructuras de tipo datoArchivo
+ * Luego, recorre el array de estructuras y va cogiendo los valores de comunidadAutonoma y del mes
+ * y comprueba con strcmp(). Si la comparación es correcta (resultado=0), hace la suma del valor
+ * al general y suma al contador de datos recogidos.
+ * Cuando finaliza, realiza la media y la devuelve para ser imprimida por pantalla
+ * 
+ * @param fichero fichero desde el que se va a filtrar
+ * @param comunidadAutonoma comunidad autónoma por la que se quiere filtrar
+ * @param mes mes por el que se va a filtrar
+ * @return la media de las temperaturas de las estaciones de CASTILLA Y LEON en el mes de MAYO
+ */
+float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
+{
+	struct datosArchivo losDatos;
+	int filas = 253 /*numeroTotalFilas(fichero)*/;
+	struct datosArchivo listadoDatos[filas];
+	//crearEstructura(&listadoDatos[filas]); //TODO
+
+	char filaTitulos[70];
+
+	char enter;
+	int numeroDeFila = 0, posicion;
+
+	while (!feof(fichero))
+	{
+		posicion = numeroDeFila - 1;
+		if (numeroDeFila == 0)
+			fgets(filaTitulos, 70, fichero);
+		else
+		{
+			fscanf(fichero, "%c%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
+				   &enter, losDatos.comunidadAutonoma, losDatos.estacion, &losDatos.altura, losDatos.mes, &losDatos.tempMedia,
+				   &losDatos.mediaTempMax, &losDatos.mediaTempMin, &losDatos.precipitacionMensualMedia, &losDatos.humedadMedia,
+				   &losDatos.diasLluvia, &losDatos.diasNieve, &losDatos.diasTempestad, &losDatos.diasNiebla,
+				   &losDatos.diasHelada, &losDatos.diasVacios, &losDatos.horasDeSol, &enter);
+			listadoDatos[posicion] = losDatos;
+		}
+
+		numeroDeFila++;
+	}
+
+	//Calcular medias
+	float sumaTemperaturas = 0;
+	int contadorDatos = 0;
+	for (int i = 0; i < 252; i++)
+	{
+		struct datosArchivo datosRecogidos = listadoDatos[i];
+		if (strcmp(datosRecogidos.comunidadAutonoma, comunidadAutonoma) == 0 && strcmp(datosRecogidos.mes, mes) == 0)
+		{
+			contadorDatos++;
+			sumaTemperaturas += datosRecogidos.tempMedia;
+		}
+	}
+
+	float media = sumaTemperaturas / contadorDatos;
+
+	return media;
+}
+
+void crearEstructura(struct datosArchivo *listadoDatos[])
+{
+	printf("Hola");
 }
 
 /**
