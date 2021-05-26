@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define LONG 30 // Posible longitud máxima de un string en este programa
+#define LONG 254 // Posible longitud máxima de un string en este programa
 
 /*Definición de funciones*/
 int solicitarOpcionMenu();
@@ -49,6 +49,15 @@ const int listaTamanosMinimos[] = {-20, -20, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 const int listaTamanosMaximos[] = {50, 50, 50, 300, 100, 366, 366, 20, 30, 50, 50, 250, 2000};
 const char nombreFicheroInicial[] = "ValoresClimatologicosFINAL.csv";
 const char nombreFicheroFinal[] = "ValoresClimatologicosFINAL_V2.csv";
+
+struct datosArchivo
+{
+	char comunidadAutonoma[LONG];
+	char estacion[LONG];
+	char mes[LONG];
+	float tempMedia, mediaTempMax, mediaTempMin, diasLluvia, diasNieve, diasTempestad, diasNiebla, diasHelada, diasVacios;
+	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
+};
 
 int main()
 {
@@ -92,7 +101,7 @@ int solicitarOpcionMenu()
 		printf("\n\t2.- Número total de filas");
 		printf("\n\t3.- Fila más larga");
 		printf("\n\t4.- Añadir una nueva fila");
-		printf("\n\t5.- Temperatura media del mes de mayo en Castilla y León")
+		printf("\n\t5.- Temperatura media del mes de mayo en Castilla y León");
 		printf("\n\t0.- Salir");
 		printf("\n**************************************************************************");
 		printf("\n ---> ");
@@ -200,7 +209,7 @@ void seleccionarOpcion(int opcion)
 			break; // Finalizo ejecución
 		}
 		// Castilla y león es la comunidad 1 del listado. Mayo es el mes 4 del listado (posición)
-		temperaturaMedia(ficheroTemperaturas, listadoComunidadesAutonomas[1], listadoMeses[4]);
+		temperaturaMedia(ficheroTemperaturas, (char *)listadoComunidadesAutonomas[1], (char *)listadoMeses[4]);
 		estadoFicheroCerrado = fclose(ficheroTemperaturas);
 		if (estadoFicheroCerrado == 0) // El fichero se ha cerrado de forma correcta
 		{
@@ -738,16 +747,96 @@ int menuMes()
 	return opcionMes;
 }
 
-
 /**
  * @param fichero fichero desde el que se va a filtrar
  * @param comunidadAutonoma comunidad autónoma por la que se quiere filtrar
  * @param mes mes por el que se va a filtrar
  */
-float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes){
+float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
+{
+
+	char precipitacionMensualMedia[LONG], humedadMedia[LONG], horasDeSol[LONG], altura[LONG];
+	char tempMedia[LONG], mediaTempMax[LONG], mediaTempMin[LONG], diasLluvia[LONG], diasNieve[LONG], 
+			diasTempestad[LONG], diasNiebla[LONG], diasHelada[LONG], diasVacios[LONG];
+	char *comunidadAutonomaArchivo;
+	char *estacion;
+	char *mesArchivo;
+
+	char /*caracterLeido,*/ enter;
+	int contadorLinea, contadorDato;
+	//char valor[LONG];
+	//int i = 0;
+
+	fscanf(fichero, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%c" /**/, 
+			comunidadAutonomaArchivo, estacion, altura, mesArchivo, tempMedia,
+		   	mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla,
+		   	diasHelada, diasVacios, horasDeSol, &enter /**/
+	);
+
+	printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" /**/, comunidadAutonomaArchivo, estacion, altura, mesArchivo, tempMedia,
+		   mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla,
+		   diasHelada, diasVacios, horasDeSol /**/
+	);
+
+	while (!feof(fichero) /*(caracterLeido = fgetc(fichero)) != EOF*/)
+	{
+		//struct datosArchivo losDatos;
+		//valor[i] = caracterLeido;
+
+		//i++;
+		/*if (caracterLeido == ',' || caracterLeido == '\n')
+		{
+			switch (contadorDato)
+			{
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+			case 8:
+				break;
+			case 9:
+				break;
+			case 10:
+				break;
+			case 11:
+				break;
+			case 12:
+				break;
+			case 13:
+				break;
+			case 14:
+				break;
+			case 15:
+				break;
+			case 16:
+				break;
+			}
+		}*/
+		fscanf(fichero, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%c" /**/, 
+				comunidadAutonomaArchivo, estacion, altura, mesArchivo, tempMedia,
+			   	mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla,
+			   	diasHelada, diasVacios, horasDeSol, &enter /**/
+		);
+
+		printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" /**/, comunidadAutonomaArchivo, estacion, altura, mesArchivo, tempMedia,
+			   mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla,
+			   diasHelada, diasVacios, horasDeSol /**/
+		);
+	}
 	return 0.0f;
 }
-
 
 /**
  * Función para limpiar el buffer
