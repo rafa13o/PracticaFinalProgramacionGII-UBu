@@ -752,9 +752,17 @@ int menuMes()
 }
 
 /**
+ * Lee el fihcero que se pasa por parámetro, crea una estructura de tipo datosArchivo 
+ * con los datos que hay en él y luego los guarda en un array de estructuras de tipo datoArchivo
+ * Luego, recorre el array de estructuras y va cogiendo los valores de comunidadAutonoma y del mes
+ * y comprueba con strcmp(). Si la comparación es correcta (resultado=0), hace la suma del valor
+ * al general y suma al contador de datos recogidos.
+ * Cuando finaliza, realiza la media y la devuelve para ser imprimida por pantalla
+ * 
  * @param fichero fichero desde el que se va a filtrar
  * @param comunidadAutonoma comunidad autónoma por la que se quiere filtrar
  * @param mes mes por el que se va a filtrar
+ * @return la media de las temperaturas de las estaciones de CASTILLA Y LEON en el mes de MAYO
  */
 float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 {
@@ -763,36 +771,14 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 	struct datosArchivo listadoDatos[filas];
 	//crearEstructura(&listadoDatos[filas]); //TODO
 
-	//int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
-	//float tempMedia, mediaTempMax, mediaTempMin, diasLluvia, diasNieve,
-	//	diasTempestad, diasNiebla, diasHelada, diasVacios;
-	//char comunidadAutonomaArchivo[21], estacion[22], mesArchivo[11];
 	char filaTitulos[70];
 
 	char enter;
 	int numeroDeFila = 0, posicion;
 
-	//if (numeroDeFila == 0)
-	//{
-	//	fgets(filaTitulos, 70, fichero);
-	//}
-	//else
-	//{
-	//	fscanf(fichero, "%c%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
-	//		   &enter, losDatos.comunidadAutonoma, losDatos.estacion, &losDatos.altura, losDatos.mes, &losDatos.tempMedia,
-	//		   &losDatos.mediaTempMax, &losDatos.mediaTempMin, &losDatos.precipitacionMensualMedia, &losDatos.humedadMedia,
-	//		   &losDatos.diasLluvia, &losDatos.diasNieve, &losDatos.diasTempestad, &losDatos.diasNiebla,
-	//		   &losDatos.diasHelada, &losDatos.diasVacios, &losDatos.horasDeSol, &enter);
-	//
-	//	//printf("%s,%s,%d,%s,%.1f,%.1f,%.1f,%d,%d,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%d", losDatos.comunidadAutonoma, losDatos.estacion, losDatos.altura, losDatos.mes, losDatos.tempMedia,
-	//	//	   losDatos.mediaTempMax, losDatos.mediaTempMin, losDatos.precipitacionMensualMedia, losDatos.humedadMedia, losDatos.diasLluvia, losDatos.diasNieve, losDatos.diasTempestad, losDatos.diasNiebla,
-	//	//	   losDatos.diasHelada, losDatos.diasVacios, losDatos.horasDeSol);
-	//}
-
 	while (!feof(fichero))
 	{
 		posicion = numeroDeFila - 1;
-		//printf("Titulos (no importan)");
 		if (numeroDeFila == 0)
 			fgets(filaTitulos, 70, fichero);
 		else
@@ -804,32 +790,17 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 				   &losDatos.diasHelada, &losDatos.diasVacios, &losDatos.horasDeSol, &enter);
 			listadoDatos[posicion] = losDatos;
 		}
-		//printf("%s\n", losDatos.comunidadAutonoma);
-		//printf("%s,%s,%d,%s,%.1f,%.1f,%.1f,%d,%d,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%d", losDatos.comunidadAutonoma, losDatos.estacion, losDatos.altura, losDatos.mes, losDatos.tempMedia,
-		//	   losDatos.mediaTempMax, losDatos.mediaTempMin, losDatos.precipitacionMensualMedia, losDatos.humedadMedia, losDatos.diasLluvia, losDatos.diasNieve, losDatos.diasTempestad, losDatos.diasNiebla,
-		//	   losDatos.diasHelada, losDatos.diasVacios, losDatos.horasDeSol);
 
 		numeroDeFila++;
-
-		//fscanf(fichero, "%c%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
-		//	   &enter, losDatos.comunidadAutonoma, losDatos.estacion, &losDatos.altura, losDatos.mes, &losDatos.tempMedia,
-		//	   &losDatos.mediaTempMax, &losDatos.mediaTempMin, &losDatos.precipitacionMensualMedia, &losDatos.humedadMedia,
-		//	   &losDatos.diasLluvia, &losDatos.diasNieve, &losDatos.diasTempestad, &losDatos.diasNiebla,
-		//	   &losDatos.diasHelada, &losDatos.diasVacios, &losDatos.horasDeSol, &enter);
 	}
 
-	//return 0;
 	//Calcular medias
 	float sumaTemperaturas = 0;
 	int contadorDatos = 0;
 	for (int i = 0; i < 252; i++)
 	{
 		struct datosArchivo datosRecogidos = listadoDatos[i];
-		//printf("\t%s\n", datosRecogidos.comunidadAutonoma);
-		//printf("---%s---%s---%s---%s---\n", datosRecogidos.comunidadAutonoma, comunidadAutonoma, datosRecogidos.mes, mes);
-		//printf("\tCA = %d\n", strcmp(comunidadAutonoma, datosRecogidos.comunidadAutonoma));
-		//printf("\tMes = %d\n", strcmp(datosRecogidos.mes, mes));
-		if (strcmp(datosRecogidos.comunidadAutonoma,comunidadAutonoma) == 0 && strcmp(datosRecogidos.mes, mes) == 0)
+		if (strcmp(datosRecogidos.comunidadAutonoma, comunidadAutonoma) == 0 && strcmp(datosRecogidos.mes, mes) == 0)
 		{
 			contadorDatos++;
 			sumaTemperaturas += datosRecogidos.tempMedia;
