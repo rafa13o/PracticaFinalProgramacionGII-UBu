@@ -22,6 +22,16 @@
 
 #define LONG 254 // Posible longitud máxima de un string en este programa
 
+/* Definición de estructuras*/
+struct datosArchivo
+{
+	char comunidadAutonoma[LONG];
+	char estacion[LONG];
+	char mes[LONG];
+	float tempMedia, mediaTempMax, mediaTempMin, diasLluvia, diasNieve, diasTempestad, diasNiebla, diasHelada, diasVacios;
+	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
+};
+
 /*Definición de funciones*/
 int solicitarOpcionMenu();
 void seleccionarOpcion(int);
@@ -37,6 +47,7 @@ int menuEstaciones();
 int menuMes();
 bool clonarArchivo();
 float temperaturaMedia(FILE *, char *, char *);
+void crearEstructura (struct datosArchivo *[]);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -49,15 +60,6 @@ const int listaTamanosMinimos[] = {-20, -20, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 const int listaTamanosMaximos[] = {50, 50, 50, 300, 100, 366, 366, 20, 30, 50, 50, 250, 2000};
 const char nombreFicheroInicial[] = "ValoresClimatologicosFINAL.csv";
 const char nombreFicheroFinal[] = "ValoresClimatologicosFINAL_V2.csv";
-
-struct datosArchivo
-{
-	char comunidadAutonoma[LONG];
-	char estacion[LONG];
-	char mes[LONG];
-	float tempMedia, mediaTempMax, mediaTempMin, diasLluvia, diasNieve, diasTempestad, diasNiebla, diasHelada, diasVacios;
-	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
-};
 
 int main()
 {
@@ -754,88 +756,58 @@ int menuMes()
  */
 float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 {
+	struct datosArchivo losDatos;
+	int filas=numeroTotalFilas(fichero);
+	struct datosArchivo listadoDatos[filas];
+	crearEstructura(listadoDatos);
+	
+	int precipitacionMensualMedia, humedadMedia, horasDeSol, altura;
+	float tempMedia, mediaTempMax, mediaTempMin, diasLluvia, diasNieve,
+		diasTempestad, diasNiebla, diasHelada, diasVacios;
+	char comunidadAutonomaArchivo[21], estacion[22], mesArchivo[11];
+	char filaTitulos[19];
 
-	char precipitacionMensualMedia[LONG], humedadMedia[LONG], horasDeSol[LONG], altura[LONG];
-	char tempMedia[LONG], mediaTempMax[LONG], mediaTempMin[LONG], diasLluvia[LONG], diasNieve[LONG], 
-			diasTempestad[LONG], diasNiebla[LONG], diasHelada[LONG], diasVacios[LONG];
-	char *comunidadAutonomaArchivo;
-	char *estacion;
-	char *mesArchivo;
+	char enter;
+	int numeroDeFila = 0;
 
-	char /*caracterLeido,*/ enter;
-	int contadorLinea, contadorDato;
-	//char valor[LONG];
-	//int i = 0;
-
-	fscanf(fichero, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%c" /**/, 
-			comunidadAutonomaArchivo, estacion, altura, mesArchivo, tempMedia,
-		   	mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla,
-		   	diasHelada, diasVacios, horasDeSol, &enter /**/
-	);
-
-	printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" /**/, comunidadAutonomaArchivo, estacion, altura, mesArchivo, tempMedia,
-		   mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla,
-		   diasHelada, diasVacios, horasDeSol /**/
-	);
-
-	while (!feof(fichero) /*(caracterLeido = fgetc(fichero)) != EOF*/)
+	if (numeroDeFila == 0)
 	{
-		//struct datosArchivo losDatos;
-		//valor[i] = caracterLeido;
+		fgets(filaTitulos, 71, fichero);
+	}
+	else
+	{
+		fscanf(fichero, "%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
+			   comunidadAutonomaArchivo, estacion, &altura, mesArchivo, &tempMedia,
+			   &mediaTempMax, &mediaTempMin, &precipitacionMensualMedia, &humedadMedia, &diasLluvia, &diasNieve, &diasTempestad, &diasNiebla,
+			   &diasHelada, &diasVacios, &horasDeSol, &enter);
+	}
 
-		//i++;
-		/*if (caracterLeido == ',' || caracterLeido == '\n')
-		{
-			switch (contadorDato)
-			{
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
-			case 9:
-				break;
-			case 10:
-				break;
-			case 11:
-				break;
-			case 12:
-				break;
-			case 13:
-				break;
-			case 14:
-				break;
-			case 15:
-				break;
-			case 16:
-				break;
-			}
-		}*/
-		fscanf(fichero, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%c" /**/, 
-				comunidadAutonomaArchivo, estacion, altura, mesArchivo, tempMedia,
-			   	mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla,
-			   	diasHelada, diasVacios, horasDeSol, &enter /**/
-		);
+	while (!feof(fichero))
+	{
 
-		printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" /**/, comunidadAutonomaArchivo, estacion, altura, mesArchivo, tempMedia,
-			   mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla,
-			   diasHelada, diasVacios, horasDeSol /**/
-		);
+		//printf("Titulos (no importan)");
+		if (numeroDeFila == 0)
+			printf("%s",filaTitulos);
+		else
+			printf("%s,%s,%d,%s,%.1f,%.1f,%.1f,%d,%d,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%d", comunidadAutonomaArchivo, estacion, altura, mesArchivo, tempMedia,
+				   mediaTempMax, mediaTempMin, precipitacionMensualMedia, humedadMedia, diasLluvia, diasNieve, diasTempestad, diasNiebla,
+				   diasHelada, diasVacios, horasDeSol);
+
+		numeroDeFila++;
+
+		fscanf(fichero, "%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
+			   comunidadAutonomaArchivo, estacion, &altura, mesArchivo, &tempMedia,
+			   &mediaTempMax, &mediaTempMin, &precipitacionMensualMedia, &humedadMedia, &diasLluvia, &diasNieve, &diasTempestad, &diasNiebla,
+			   &diasHelada, &diasVacios, &horasDeSol, &enter);
+
+		//printf("%s\n", comunidadAutonomaArchivo);
 	}
 	return 0.0f;
+}
+
+void crearEstructura (struct datosArchivo *listadoDatos[]){
+
+
 }
 
 /**
