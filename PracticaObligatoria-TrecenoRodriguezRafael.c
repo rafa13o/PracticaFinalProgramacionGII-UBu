@@ -48,7 +48,7 @@ int menuEstaciones();
 int menuMes();
 bool clonarArchivo();
 float temperaturaMedia(FILE *, char *, char *);
-void crearEstructura(struct datosArchivo *[]);
+void crearEstructura(FILE *, struct datosArchivo * []);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -766,13 +766,33 @@ int menuMes()
  */
 float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 {
-	struct datosArchivo losDatos;
 	int filas = 253 /*numeroTotalFilas(fichero)*/;
-	struct datosArchivo listadoDatos[filas];
-	//crearEstructura(&listadoDatos[filas]); //TODO
+	struct datosArchivo *listadoDatos[filas];
+	crearEstructura(fichero, &listadoDatos[filas]); //TODO
 
+	//Calcular medias
+	float sumaTemperaturas = 0;
+	int contadorDatos = 0;
+	for (int i = 0; i < 252; i++)
+	{
+		struct datosArchivo datosRecogidos = listadoDatos[i];
+		if (strcmp(datosRecogidos.comunidadAutonoma, comunidadAutonoma) == 0 && strcmp(datosRecogidos.mes, mes) == 0)
+		{
+			contadorDatos++;
+			sumaTemperaturas += datosRecogidos.tempMedia;
+		}
+	}
+
+	float media = sumaTemperaturas / contadorDatos;
+
+	return media;
+}
+
+void crearEstructura(FILE *fichero, struct datosArchivo *listadoDatos[])
+{
+	struct datosArchivo losDatos;
+	
 	char filaTitulos[70];
-
 	char enter;
 	int numeroDeFila = 0, posicion;
 
@@ -793,28 +813,6 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 
 		numeroDeFila++;
 	}
-
-	//Calcular medias
-	float sumaTemperaturas = 0;
-	int contadorDatos = 0;
-	for (int i = 0; i < 252; i++)
-	{
-		struct datosArchivo datosRecogidos = listadoDatos[i];
-		if (strcmp(datosRecogidos.comunidadAutonoma, comunidadAutonoma) == 0 && strcmp(datosRecogidos.mes, mes) == 0)
-		{
-			contadorDatos++;
-			sumaTemperaturas += datosRecogidos.tempMedia;
-		}
-	}
-
-	float media = sumaTemperaturas / contadorDatos;
-
-	return media;
-}
-
-void crearEstructura(struct datosArchivo *listadoDatos[])
-{
-	printf("Hola");
 }
 
 /**
