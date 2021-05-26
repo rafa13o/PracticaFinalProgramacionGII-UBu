@@ -48,7 +48,6 @@ int menuEstaciones();
 int menuMes();
 bool clonarArchivo();
 float temperaturaMedia(FILE *, char *, char *);
-void crearEstructura(struct datosArchivo *[]);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -767,9 +766,8 @@ int menuMes()
 float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 {
 	struct datosArchivo losDatos;
-	int filas = 253 /*numeroTotalFilas(fichero)*/;
+	int filas = 253;
 	struct datosArchivo listadoDatos[filas];
-	//crearEstructura(&listadoDatos[filas]); //TODO
 
 	char filaTitulos[70];
 
@@ -812,10 +810,6 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 	return media;
 }
 
-void crearEstructura(struct datosArchivo *listadoDatos[])
-{
-	printf("Hola");
-}
 
 /**
  * Función para limpiar el buffer
