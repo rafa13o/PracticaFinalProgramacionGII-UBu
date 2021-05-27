@@ -49,6 +49,7 @@ int menuMes();
 bool clonarArchivo();
 float temperaturaMedia(FILE *, char *, char *);
 void temperaturaPrecipitacion(FILE *, int);
+void crearEstructura(FILE *, struct datosArchivo *, char *);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -785,32 +786,11 @@ int menuMes()
  */
 float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 {
-	struct datosArchivo losDatos;
 	int filas = 253;
 	struct datosArchivo listadoDatos[filas];
+	char filaTitulos[72];
 
-	char filaTitulos[70];
-
-	char enter;
-	int numeroDeFila = 0, posicion;
-
-	while (!feof(fichero))
-	{
-		posicion = numeroDeFila - 1;
-		if (numeroDeFila == 0)
-			fgets(filaTitulos, 70, fichero);
-		else
-		{
-			fscanf(fichero, "%c%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
-				   &enter, losDatos.comunidadAutonoma, losDatos.estacion, &losDatos.altura, losDatos.mes, &losDatos.tempMedia,
-				   &losDatos.mediaTempMax, &losDatos.mediaTempMin, &losDatos.precipitacionMensualMedia, &losDatos.humedadMedia,
-				   &losDatos.diasLluvia, &losDatos.diasNieve, &losDatos.diasTempestad, &losDatos.diasNiebla,
-				   &losDatos.diasHelada, &losDatos.diasVacios, &losDatos.horasDeSol, &enter);
-			listadoDatos[posicion] = losDatos;
-		}
-
-		numeroDeFila++;
-	}
+	crearEstructura(fichero, listadoDatos, filaTitulos); // Función para crear la estructura
 
 	//Calcular medias
 	float sumaTemperaturas = 0;
@@ -832,40 +812,19 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 
 /**
  * Función que recibe un fichero abierto por parámetro, crea una
- * estructur ade tipo datosArchivo con él 
+ * estructura de tipo datosArchivo con él 
  * 
  * @param fichero el fichero del que tiene que recoger los datos.
  * @param numeroLineas el número de lineas que tiene el fichero original.
  */
 void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 {
-	struct datosArchivo losDatos;
 	struct datosArchivo datosRecogidos;
 	struct datosArchivo nuevosDatos[numeroLineas]; // Datos para el nuevo archivo
 	struct datosArchivo listadoDatos[numeroLineas];
+	char filaTitulos[72];
 
-	char filaTitulos[70];
-
-	char enter;
-	int numeroDeFila = 0, posicion;
-
-	while (!feof(fichero))
-	{
-		posicion = numeroDeFila - 1;
-		if (numeroDeFila == 0)
-			fgets(filaTitulos, 70, fichero);
-		else
-		{
-			fscanf(fichero, "%c%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
-				   &enter, losDatos.comunidadAutonoma, losDatos.estacion, &losDatos.altura, losDatos.mes, &losDatos.tempMedia,
-				   &losDatos.mediaTempMax, &losDatos.mediaTempMin, &losDatos.precipitacionMensualMedia, &losDatos.humedadMedia,
-				   &losDatos.diasLluvia, &losDatos.diasNieve, &losDatos.diasTempestad, &losDatos.diasNiebla,
-				   &losDatos.diasHelada, &losDatos.diasVacios, &losDatos.horasDeSol, &enter);
-			listadoDatos[posicion] = losDatos;
-		}
-
-		numeroDeFila++;
-	}
+	crearEstructura(fichero, listadoDatos, filaTitulos); // Función para crear la estructura
 
 	int contadorDatosGuardados = 0;
 	for (int i = 0; i < numeroLineas; i++)
@@ -877,6 +836,37 @@ void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 			nuevosDatos[contadorDatosGuardados] = datosRecogidos;
 			contadorDatosGuardados++;
 		}
+	}
+}
+
+/**
+ * Función que recibe por parámetro un archivo y un array de tipo struct datosArchivo.
+ * Lee el archivo, separa los datos, los almacena cada uno en la estructura y, a su vez,
+ * los almacena en el array de estructuras.
+ * 
+ * @param fichero fichero del que lee los datos para crear la estructura.
+ * @param listadoDatos array donde se guardarán los datos.
+ */
+void crearEstructura(FILE *fichero, struct datosArchivo *listadoDatos, char *filaTitulos)
+{
+
+	char enter;
+	int numeroDeFila = 0, posicion;
+
+	while (!feof(fichero))
+	{
+		posicion = numeroDeFila - 1;
+		if (numeroDeFila == 0)
+			fgets(filaTitulos, 72, fichero);
+		else
+		{
+			fscanf(fichero, "%c%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
+				   &enter, listadoDatos[posicion].comunidadAutonoma, listadoDatos[posicion].estacion, &listadoDatos[posicion].altura, listadoDatos[posicion].mes, &listadoDatos[posicion].tempMedia,
+				   &listadoDatos[posicion].mediaTempMax, &listadoDatos[posicion].mediaTempMin, &listadoDatos[posicion].precipitacionMensualMedia, &listadoDatos[posicion].humedadMedia,
+				   &listadoDatos[posicion].diasLluvia, &listadoDatos[posicion].diasNieve, &listadoDatos[posicion].diasTempestad, &listadoDatos[posicion].diasNiebla,
+				   &listadoDatos[posicion].diasHelada, &listadoDatos[posicion].diasVacios, &listadoDatos[posicion].horasDeSol, &enter);
+		}
+		numeroDeFila++;
 	}
 }
 
