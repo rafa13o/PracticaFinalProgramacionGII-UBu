@@ -49,7 +49,7 @@ int menuMes();
 bool clonarArchivo();
 float temperaturaMedia(FILE *, char *, char *);
 void temperaturaPrecipitacion(FILE *, int);
-void crearEstructura(FILE *, struct datosArchivo *);
+void crearEstructura(FILE *, struct datosArchivo *, char *);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -788,8 +788,9 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 {
 	int filas = 253;
 	struct datosArchivo listadoDatos[filas];
+	char filaTitulos[72];
 
-	crearEstructura(fichero, listadoDatos); // Función para crear la estructura
+	crearEstructura(fichero, listadoDatos, filaTitulos); // Función para crear la estructura
 
 	//Calcular medias
 	float sumaTemperaturas = 0;
@@ -821,9 +822,9 @@ void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 	struct datosArchivo datosRecogidos;
 	struct datosArchivo nuevosDatos[numeroLineas]; // Datos para el nuevo archivo
 	struct datosArchivo listadoDatos[numeroLineas];
+	char filaTitulos[72];
 
-	crearEstructura(fichero, listadoDatos); // Función para crear la estructura
-
+	crearEstructura(fichero, listadoDatos, filaTitulos); // Función para crear la estructura
 
 	int contadorDatosGuardados = 0;
 	for (int i = 0; i < numeroLineas; i++)
@@ -846,9 +847,8 @@ void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
  * @param fichero fichero del que lee los datos para crear la estructura.
  * @param listadoDatos array donde se guardarán los datos.
  */
-void crearEstructura(FILE *fichero, struct datosArchivo *listadoDatos){
-
-	char filaTitulos[70];
+void crearEstructura(FILE *fichero, struct datosArchivo *listadoDatos, char *filaTitulos)
+{
 
 	char enter;
 	int numeroDeFila = 0, posicion;
@@ -857,7 +857,7 @@ void crearEstructura(FILE *fichero, struct datosArchivo *listadoDatos){
 	{
 		posicion = numeroDeFila - 1;
 		if (numeroDeFila == 0)
-			fgets(filaTitulos, 70, fichero);
+			fgets(filaTitulos, 72, fichero);
 		else
 		{
 			fscanf(fichero, "%c%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
