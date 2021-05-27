@@ -48,7 +48,7 @@ int menuEstaciones();
 int menuMes();
 bool clonarArchivo();
 float temperaturaMedia(FILE *, char *, char *);
-void temperaturaPrecipitacion (FILE *, int);
+void temperaturaPrecipitacion(FILE *, int);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -830,11 +830,18 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 	return media;
 }
 
-
 /**
+ * Función que recibe un fichero abierto por parámetro, crea una
+ * estructur ade tipo datosArchivo con él 
+ * 
+ * @param fichero el fichero del que tiene que recoger los datos.
+ * @param numeroLineas el número de lineas que tiene el fichero original.
  */
-void temperaturaPrecipitacion (FILE *fichero, int numeroLineas){
+void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
+{
 	struct datosArchivo losDatos;
+	struct datosArchivo datosRecogidos;
+	struct datosArchivo nuevosDatos[numeroLineas]; // Datos para el nuevo archivo
 	struct datosArchivo listadoDatos[numeroLineas];
 
 	char filaTitulos[70];
@@ -858,6 +865,18 @@ void temperaturaPrecipitacion (FILE *fichero, int numeroLineas){
 		}
 
 		numeroDeFila++;
+	}
+
+	int contadorDatosGuardados = 0;
+	for (int i = 0; i < numeroLineas; i++)
+	{
+		datosRecogidos = listadoDatos[i];
+
+		if ((datosRecogidos.tempMedia >= 15 && datosRecogidos.tempMedia <= 30) && (datosRecogidos.precipitacionMensualMedia >= 20 && datosRecogidos.precipitacionMensualMedia <= 40))
+		{
+			nuevosDatos[contadorDatosGuardados] = datosRecogidos;
+			contadorDatosGuardados++;
+		}
 	}
 }
 
