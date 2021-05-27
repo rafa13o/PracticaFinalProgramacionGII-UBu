@@ -50,6 +50,7 @@ bool clonarArchivo();
 float temperaturaMedia(FILE *, char *, char *);
 void temperaturaPrecipitacion(FILE *, int);
 void crearEstructura(FILE *, struct datosArchivo *, char *);
+void escribirFicheroLimpio(FILE *, char *);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -62,6 +63,7 @@ const int listaTamanosMinimos[] = {-20, -20, -20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 const int listaTamanosMaximos[] = {50, 50, 50, 300, 100, 366, 366, 20, 30, 50, 50, 250, 2000};
 const char nombreFicheroInicial[] = "ValoresClimatologicosFINAL.csv";
 const char nombreFicheroFinal[] = "ValoresClimatologicosFINAL_V2.csv";
+const char nombreFicheroNuevo[] = "ValoresClimatologicosFINAL_V3.csv";
 
 int main()
 {
@@ -838,6 +840,16 @@ void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 		}
 	}
 
+	//Creación del nuevo fichero
+	FILE *ficheroNuevo = fopen((char *)nombreFicheroNuevo, "a+");
+	if (ficheroNuevo == NULL) // Compruebo que el fichero se ha abierto correctamente
+	{
+		printf("Error al abrir el fichero");
+		return; // Finalizo ejecución
+	}
+
+	escribirFicheroLimpio(ficheroNuevo, filaTitulos);
+
 	char parser[LONG];
 
 	for (int i = 0; i < contadorDatosGuardados; i++)
@@ -888,11 +900,24 @@ void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 		strcat(salida, ",");
 		sprintf(parser, "%d", datosRecogidos.horasDeSol);
 		strcat(salida, parser);
-		strcat(salida, "\n");
 
-		printf("%s", salida);
+		escribirFicheroLimpio(ficheroNuevo, salida);
 	}
-	
+
+	int estadoCierre = fclose(ficheroNuevo);
+	if (estadoCierre == 0) // El fichero se ha cerrado de forma correcta
+	{
+		printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su escritura.\n*****\n");
+	}
+	else
+	{
+		printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su escritura.\n*****\n");
+	}
+}
+
+void escribirFicheroLimpio(FILE *ficheroSalida, char *lineaAEscribir)
+{
+	fprintf(ficheroSalida, "%s\n", lineaAEscribir);
 }
 
 /**
