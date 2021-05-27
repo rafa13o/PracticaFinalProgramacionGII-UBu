@@ -789,14 +789,14 @@ int menuMes()
 float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 {
 	int filas = 253;
-	struct datosArchivo listadoDatos[filas];
-	char filaTitulos[72];
+	struct datosArchivo listadoDatos[filas]; // Listado con todos los datos del archivo
+	char filaTitulos[72];					 // Para recoger la fila de títulos
 
 	crearEstructura(fichero, listadoDatos, filaTitulos); // Función para crear la estructura
 
 	//Calcular medias
 	float sumaTemperaturas = 0;
-	int contadorDatos = 0;
+	int contadorDatos = 0; // Cantidad de datos que cumplen con las condiciones
 	for (int i = 0; i < 252; i++)
 	{
 		struct datosArchivo datosRecogidos = listadoDatos[i];
@@ -814,7 +814,11 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 
 /**
  * Función que recibe un fichero abierto por parámetro, crea una
- * estructura de tipo datosArchivo con él 
+ * estructura de tipo datosArchivo con él y la guarda en el array de estructuras.
+ * Va recorriendo todo el array y va filtrando los datos de temperaturas
+ * y precipitación. Si cumple ambos requisitos, se agrega a un nuevo array.
+ * Recorre el nuevo array, va concatenando todos los datos y los manda
+ * a la función escribirFicheroLimpio para imprimirlo.
  * 
  * @param fichero el fichero del que tiene que recoger los datos.
  * @param numeroLineas el número de lineas que tiene el fichero original.
@@ -822,9 +826,9 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 {
 	struct datosArchivo datosRecogidos;
-	struct datosArchivo nuevosDatos[numeroLineas]; // Datos para el nuevo archivo
-	struct datosArchivo listadoDatos[numeroLineas];
-	char filaTitulos[72];
+	struct datosArchivo nuevosDatos[numeroLineas];	// Datos para el nuevo archivo
+	struct datosArchivo listadoDatos[numeroLineas]; // Listado de todos los datos
+	char filaTitulos[72];							// Para la fila de títulos
 
 	crearEstructura(fichero, listadoDatos, filaTitulos); // Función para crear la estructura
 
@@ -848,14 +852,15 @@ void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 		return; // Finalizo ejecución
 	}
 
-	escribirFicheroLimpio(ficheroNuevo, filaTitulos);
+	escribirFicheroLimpio(ficheroNuevo, filaTitulos); // Escribo la fila de titulos
 
 	char parser[LONG];
 
 	for (int i = 0; i < contadorDatosGuardados; i++)
 	{
 		datosRecogidos = nuevosDatos[i];
-		char salida[LONG] = "";
+		char salida[LONG] = ""; // Vacío para que no se me junten los anteriores datos con los nuevos
+		// A partir de aquí voy concatenando los datos y las comas
 		strcpy(salida, datosRecogidos.comunidadAutonoma);
 		strcat(salida, ",");
 		strcat(salida, datosRecogidos.estacion);
@@ -901,7 +906,7 @@ void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 		sprintf(parser, "%d", datosRecogidos.horasDeSol);
 		strcat(salida, parser);
 
-		escribirFicheroLimpio(ficheroNuevo, salida);
+		escribirFicheroLimpio(ficheroNuevo, salida); // Lo mando todo al nuevo archivo
 	}
 
 	int estadoCierre = fclose(ficheroNuevo);
@@ -915,6 +920,14 @@ void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 	}
 }
 
+/**
+ * Función que recibe un fichero por parámetro y escribe en el la 
+ * línea que recibe tambien por parámetro. En un inicio, el fichero
+ * estará vacío
+ * 
+ * @param ficheroSalida el fichero en el que se escribirá la línea
+ * @param lineaAEscribir la línea que hay que escribir en el fichero.
+ */
 void escribirFicheroLimpio(FILE *ficheroSalida, char *lineaAEscribir)
 {
 	fprintf(ficheroSalida, "%s\n", lineaAEscribir);
@@ -930,16 +943,19 @@ void escribirFicheroLimpio(FILE *ficheroSalida, char *lineaAEscribir)
  */
 void crearEstructura(FILE *fichero, struct datosArchivo *listadoDatos, char *filaTitulos)
 {
-
 	char enter;
+	/**
+	 * numeroDeFila = numero de fila del archivo que estoy leyendo
+	 * posicion = posición del array en la que tengo que guardar la estructura
+	 */
 	int numeroDeFila = 0, posicion;
 
 	while (!feof(fichero))
 	{
 		posicion = numeroDeFila - 1;
-		if (numeroDeFila == 0)
+		if (numeroDeFila == 0) // Recojo primero toda la fila de títulos (72 caracteres)
 			fgets(filaTitulos, 72, fichero);
-		else
+		else // Recojo el resto de filas
 		{
 			fscanf(fichero, "%c%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
 				   &enter, listadoDatos[posicion].comunidadAutonoma, listadoDatos[posicion].estacion, &listadoDatos[posicion].altura, listadoDatos[posicion].mes, &listadoDatos[posicion].tempMedia,
@@ -964,3 +980,4 @@ void limpiarBuffer()
 //------ BIBLIOGRAFÍA ------
 // https://www.microchip.com/forums/m955412.aspx
 // https://www.microchip.com/forums/m719672.aspx
+// https://www.includehelp.com/c-programs/pass-an-array-of-structures-structure-to-a-user-define-function.aspx
