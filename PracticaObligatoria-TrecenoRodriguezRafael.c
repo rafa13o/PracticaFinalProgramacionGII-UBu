@@ -837,6 +837,62 @@ void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
 			contadorDatosGuardados++;
 		}
 	}
+
+	char parser[LONG];
+
+	for (int i = 0; i < contadorDatosGuardados; i++)
+	{
+		datosRecogidos = nuevosDatos[i];
+		char salida[LONG] = "";
+		strcpy(salida, datosRecogidos.comunidadAutonoma);
+		strcat(salida, ",");
+		strcat(salida, datosRecogidos.estacion);
+		strcat(salida, ",");
+		sprintf(parser, "%d", datosRecogidos.altura);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		strcat(salida, datosRecogidos.mes);
+		strcat(salida, ",");
+		sprintf(parser, "%.1f", datosRecogidos.tempMedia);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%.1f", datosRecogidos.mediaTempMax);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%.1f", datosRecogidos.mediaTempMin);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%d", datosRecogidos.precipitacionMensualMedia);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%d", datosRecogidos.humedadMedia);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%.1f", datosRecogidos.diasLluvia);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%.1f", datosRecogidos.diasNieve);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%.1f", datosRecogidos.diasTempestad);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%.1f", datosRecogidos.diasNiebla);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%.1f", datosRecogidos.diasHelada);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%.1f", datosRecogidos.diasVacios);
+		strcat(salida, parser);
+		strcat(salida, ",");
+		sprintf(parser, "%d", datosRecogidos.horasDeSol);
+		strcat(salida, parser);
+		strcat(salida, "\n");
+
+		printf("%s", salida);
+	}
+	
 }
 
 /**
