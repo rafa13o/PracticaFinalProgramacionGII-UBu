@@ -48,6 +48,7 @@ int menuEstaciones();
 int menuMes();
 bool clonarArchivo();
 float temperaturaMedia(FILE *, char *, char *);
+void temperaturaPrecipitacion(FILE *, int);
 
 //--- Listas constantes ---
 const char listadoComunidadesAutonomas[3][21] = {"Comunidad Valenciana", "Castilla y Leon", "Comunidad de Madrid"};
@@ -104,12 +105,13 @@ int solicitarOpcionMenu()
 		printf("\n\t3.- Fila más larga");
 		printf("\n\t4.- Añadir una nueva fila");
 		printf("\n\t5.- Temperatura media del mes de mayo en Castilla y León");
+		printf("\n\t6.- Crear archivos con temper. [15,30] y con precip. [20,40]");
 		printf("\n\t0.- Salir");
 		printf("\n**************************************************************************");
 		printf("\n ---> ");
 		scanf("%c%*[^\n]", &charOpcion); // Para ignorar el \n
 
-		if (charOpcion >= 48 && charOpcion <= 53) // 48(Ascii)=0 y 53(Ascii)=5
+		if (charOpcion >= 48 && charOpcion <= 54) // 48(Ascii)=0 y 54(Ascii)=6
 		{
 			opcionCorrecta = true;
 		}
@@ -213,6 +215,24 @@ void seleccionarOpcion(int opcion)
 		// Castilla y león es la comunidad 1 del listado. Mayo es el mes 4 del listado (posición)
 		float media = temperaturaMedia(ficheroTemperaturas, (char *)listadoComunidadesAutonomas[1], (char *)listadoMeses[4]);
 		printf("Temperatura media de las estaciones meteorológicas de CASTILLA Y LEON en el mes de MAYO es: %.1f", media);
+		estadoFicheroCerrado = fclose(ficheroTemperaturas);
+		if (estadoFicheroCerrado == 0) // El fichero se ha cerrado de forma correcta
+		{
+			printf("\n*****\nEl fichero se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}
+		else
+		{
+			printf("\n*****\nEl fichero no se ha cerrado de forma correcta tras su lectura.\n*****\n");
+		}
+		break;
+	case 6:
+		ficheroTemperaturas = fopen((char *)nombreFicheroInicial, "r");
+		if (ficheroTemperaturas == NULL) // Compruebo que el fichero se ha abierto correctamente
+		{
+			printf("Error al abrir el fichero");
+			break; // Finalizo ejecución
+		}
+		temperaturaPrecipitacion(ficheroTemperaturas, 253);
 		estadoFicheroCerrado = fclose(ficheroTemperaturas);
 		if (estadoFicheroCerrado == 0) // El fichero se ha cerrado de forma correcta
 		{
@@ -810,6 +830,55 @@ float temperaturaMedia(FILE *fichero, char *comunidadAutonoma, char *mes)
 	return media;
 }
 
+/**
+ * Función que recibe un fichero abierto por parámetro, crea una
+ * estructur ade tipo datosArchivo con él 
+ * 
+ * @param fichero el fichero del que tiene que recoger los datos.
+ * @param numeroLineas el número de lineas que tiene el fichero original.
+ */
+void temperaturaPrecipitacion(FILE *fichero, int numeroLineas)
+{
+	struct datosArchivo losDatos;
+	struct datosArchivo datosRecogidos;
+	struct datosArchivo nuevosDatos[numeroLineas]; // Datos para el nuevo archivo
+	struct datosArchivo listadoDatos[numeroLineas];
+
+	char filaTitulos[70];
+
+	char enter;
+	int numeroDeFila = 0, posicion;
+
+	while (!feof(fichero))
+	{
+		posicion = numeroDeFila - 1;
+		if (numeroDeFila == 0)
+			fgets(filaTitulos, 70, fichero);
+		else
+		{
+			fscanf(fichero, "%c%[^,],%[^,],%d,%[^,],%f,%f,%f,%d,%d,%f,%f,%f,%f,%f,%f,%d%c",
+				   &enter, losDatos.comunidadAutonoma, losDatos.estacion, &losDatos.altura, losDatos.mes, &losDatos.tempMedia,
+				   &losDatos.mediaTempMax, &losDatos.mediaTempMin, &losDatos.precipitacionMensualMedia, &losDatos.humedadMedia,
+				   &losDatos.diasLluvia, &losDatos.diasNieve, &losDatos.diasTempestad, &losDatos.diasNiebla,
+				   &losDatos.diasHelada, &losDatos.diasVacios, &losDatos.horasDeSol, &enter);
+			listadoDatos[posicion] = losDatos;
+		}
+
+		numeroDeFila++;
+	}
+
+	int contadorDatosGuardados = 0;
+	for (int i = 0; i < numeroLineas; i++)
+	{
+		datosRecogidos = listadoDatos[i];
+
+		if ((datosRecogidos.tempMedia >= 15 && datosRecogidos.tempMedia <= 30) && (datosRecogidos.precipitacionMensualMedia >= 20 && datosRecogidos.precipitacionMensualMedia <= 40))
+		{
+			nuevosDatos[contadorDatosGuardados] = datosRecogidos;
+			contadorDatosGuardados++;
+		}
+	}
+}
 
 /**
  * Función para limpiar el buffer
