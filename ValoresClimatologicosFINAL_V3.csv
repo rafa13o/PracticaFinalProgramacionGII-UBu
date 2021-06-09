@@ -1,0 +1,52 @@
+Comunidad autonoma,Estacion,Altura,Mes,T,TM,Tm,R,H,DR,DN,DT,DF,DH,DD,I
+Comunidad Valenciana,Valencia,11,Abril,16.2,20.8,11.5,38,62,4.8,0.0,1.1,0.7,0.0,5.2,234
+Comunidad Valenciana,Valencia,11,Mayo,19.0,23.4,14.6,39,65,4.3,0.0,1.8,0.4,0.0,5.9,258
+Comunidad Valenciana,Valencia,11,Junio,22.9,27.1,18.6,22,66,2.6,0.0,1.8,0.2,0.0,9.0,276
+Comunidad Valenciana,Valencia,11,Agosto,26.1,30.2,21.9,20,68,2.4,0.0,1.9,0.3,0.0,10.2,288
+Comunidad Valenciana,Alicante,81,Abril,16.1,21.3,10.9,29,63,4.1,0.0,1.6,0.2,0.0,5.5,247
+Comunidad Valenciana,Alicante,81,Mayo,19.1,24.1,14.1,28,64,4.0,0.0,2.3,0.0,0.0,5.4,277
+Comunidad Valenciana,Alicante,81,Noviembre,15.4,20.5,10.3,36,69,4.2,0.0,0.5,0.1,0.0,5.7,173
+Comunidad Valenciana,Elche aeropuerto,43,Abril,15.9,21.1,10.7,27,57,3.7,0.0,1.4,0.6,0.0,4.9,251
+Comunidad Valenciana,Elche aeropuerto,43,Mayo,18.9,23.8,13.9,28,59,3.7,0.0,2.0,0.3,0.0,5.1,291
+Comunidad Valenciana,Elche aeropuerto,43,Septiembre,23.8,28.5,19.0,40,63,3.3,0.0,3.1,0.1,0.0,5.6,243
+Comunidad Valenciana,Elche aeropuerto,43,Noviembre,15.4,20.3,10.6,34,64,3.8,0.0,0.7,0.2,0.0,5.5,174
+Comunidad Valenciana,Castellon,43,Agosto,25.6,30.3,20.9,24,66,2.4,0.0,3.9,0.0,0.0,7.9,290
+Castilla y Leon,Avila,1130,Junio,17.4,24.6,10.2,33,51,4.7,0.0,2.6,0.6,0.1,7.9,312
+Castilla y Leon,Avila,1130,Septiembre,16.5,23.4,9.6,30,56,4.4,0.0,1.4,0.7,0.3,7.9,244
+Castilla y Leon,Burgos aeropuerto,891,Julio,19.5,27.6,11.5,23,57,3.6,0.0,3.3,0.8,0.0,10.5,320
+Castilla y Leon,Burgos aeropuerto,891,Agosto,19.5,27.5,11.5,23,58,3.4,0.0,3.0,1.3,0.0,8.2,292
+Castilla y Leon,Burgos aeropuerto,891,Septiembre,16.1,23.3,8.9,38,65,5.3,0.0,1.9,1.7,0.1,5.8,220
+Castilla y Leon,Leon,912,Junio,17.1,24.0,10.2,31,56,4.6,0.0,2.9,0.2,0.0,7.3,314
+Castilla y Leon,Leon,912,Agosto,19.6,26.9,12.3,23,54,2.7,0.0,2.6,0.1,0.0,11.8,327
+Castilla y Leon,Leon,912,Septiembre,16.5,22.9,10.1,39,62,4.5,0.0,1.5,0.2,0.0,9.0,246
+Castilla y Leon,Ponferrada,534,Junio,19.3,26.4,12.3,32,59,5.0,0.0,2.5,0.1,0.0,6.9,0
+Castilla y Leon,Ponferrada,534,Julio,21.8,29.4,14.2,23,57,3.4,0.0,2.8,0.0,0.0,11.3,0
+Castilla y Leon,Ponferrada,534,Agosto,21.4,29.0,13.8,25,57,3.7,0.0,2.5,0.0,0.0,10.7,0
+Castilla y Leon,Salamanca aeropuerto,790,Junio,18.8,26.6,11.0,29,52,3.8,0.0,3.5,0.5,0.0,7.5,317
+Castilla y Leon,Salamanca aeropuerto,790,Septiembre,17.6,25.1,10.0,32,59,4.2,0.0,2.1,1.1,0.0,7.3,251
+Castilla y Leon,Segovia,1005,Agosto,22.1,29.4,14.8,20,40,3.0,0.0,3.8,0.1,0.0,10.4,328
+Castilla y Leon,Segovia,1005,Septiembre,17.7,24.0,11.4,28,50,4.7,0.0,2.1,0.4,0.0,5.8,246
+Castilla y Leon,Soria,1082,Junio,17.2,24.6,9.9,40,56,5.6,0.1,4.4,0.6,0.1,4.7,293
+Castilla y Leon,Soria,1082,Julio,20.5,28.7,12.4,30,50,3.7,0.0,4.1,0.1,0.0,9.0,339
+Castilla y Leon,Soria,1082,Agosto,20.3,28.3,12.2,30,52,3.8,0.0,4.4,0.2,0.0,7.4,313
+Castilla y Leon,Soria,1082,Septiembre,16.4,23.6,9.3,33,60,5.2,0.0,2.9,0.9,0.1,5.4,233
+Castilla y Leon,Valladolid,735,Junio,19.3,27.0,11.6,29,52,4.5,0.0,3.6,0.6,0.0,7.8,322
+Castilla y Leon,Valladolid,735,Septiembre,18.5,25.6,11.3,31,56,4.3,0.0,1.8,0.9,0.0,7.5,254
+Castilla y Leon,Valladolid aeropuerto,846,Junio,17.6,25.3,9.9,30,56,4.6,0.0,3.1,0.7,0.0,8.3,323
+Castilla y Leon,Valladolid aeropuerto,846,Agosto,20.5,28.6,12.4,21,51,2.6,0.0,2.4,0.4,0.0,11.9,342
+Castilla y Leon,Valladolid aeropuerto,846,Septiembre,17.2,24.4,10.1,32,60,4.5,0.0,1.7,1.2,0.0,8.0,242
+Castilla y Leon,Zamora,656,Junio,19.8,27.0,12.6,23,51,3.8,0.0,2.0,0.1,0.0,9.6,318
+Castilla y Leon,Zamora,656,Septiembre,18.8,25.5,12.0,28,57,4.2,0.0,1.4,0.3,0.0,9.7,241
+Comunidad de Madrid,Colmenar Viejo,1004,Junio,20.1,26.0,14.1,28,48,3.5,0.0,2.7,0.5,0.0,0.0,0
+Comunidad de Madrid,Colmenar Viejo,1004,Septiembre,19.0,24.3,13.8,36,54,4.0,0.0,2.1,2.0,0.0,7.1,233
+Comunidad de Madrid,Getafe,620,Mayo,16.8,23.0,10.5,39,52,6.3,0.0,3.8,0.5,0.1,4.4,279
+Comunidad de Madrid,Getafe,620,Septiembre,21.1,27.5,14.6,22,48,2.9,0.0,2.0,0.5,0.0,7.9,256
+Comunidad de Madrid,Madrid Cuatro Vientos,690,Junio,22.2,28.9,15.4,24,43,3.2,0.0,2.8,0.1,0.0,8.9,316
+Comunidad de Madrid,Madrid Cuatro Vientos,690,Septiembre,21.0,27.3,14.6,24,49,3.2,0.0,2.0,0.3,0.0,7.7,250
+Comunidad de Madrid,Madrid Retiro,667,Junio,22.2,28.2,16.1,21,44,3.4,0.0,2.8,0.0,0.0,9.4,315
+Comunidad de Madrid,Madrid Retiro,667,Septiembre,20.9,26.4,15.4,22,50,3.3,0.0,1.8,0.2,0.0,8.1,259
+Comunidad de Madrid,Madrid Aeropuerto,609,Junio,21.7,29.5,13.9,22,42,3.6,0.0,2.7,0.1,0.0,8.9,310
+Comunidad de Madrid,Madrid Aeropuerto,609,Septiembre,20.5,27.9,13.1,24,48,2.9,0.0,1.7,0.4,0.0,8.0,258
+Comunidad de Madrid,Puerto de Navacerrada,1894,Julio,17.0,22.4,11.5,23,47,3.2,0.0,2.9,2.4,0.0,14.6,348
+Comunidad de Madrid,Puerto de Navacerrada,1894,Agosto,16.8,22.2,11.5,26,49,3.5,0.0,3.4,2.1,0.0,10.9,321
+Comunidad de Madrid,Torrejon de Ardoz,607,Septiembre,20.6,27.8,13.4,25,50,3.5,0.0,1.6,0.1,0.0,8.2,241

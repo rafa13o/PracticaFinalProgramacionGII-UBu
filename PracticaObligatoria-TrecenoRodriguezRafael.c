@@ -5,23 +5,20 @@
  * 	2) Indica el número total de filas
  * 	3) Indica Cuál es la fila más larga
  * 	4) Clona el archivo y crea una nueva línea al final
+ * 	5) Indica la temperatura media del mes de mayo en Castilla y León
+ *	6) Crea un archivo con las temperaturas que se encuentren entre [15,30] 
+ *		y precipitaciones entre [20,40]
  *
  * @author TRECEÑO RODRIGUEZ, RAFAEL (rafa13o)
- * @date 13-05-2021 Tuesday
- * @version 2.0v
+ * @date 09 de junio de 2021
+ * @version 3.0v
  */
 
-/**
- * FOR ME: (notas personales)
- * cd VM/COMPARTIDA/PROGRA/PRACTICA
- * gcc -Wall -o PracticaObligatoria-TrecenoRodriguezRafael PracticaObligatoria-TrecenoRodriguezRafael.c
- * ./PracticaObligatoria-TrecenoRodriguezRafael
- */
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 
-#define LONG 254 // Posible longitud máxima de un string en este programa
+#define LONG 254 // Longitud máxima
 
 /* Definición de estructuras*/
 struct datosArchivo
@@ -968,7 +965,7 @@ void crearEstructura(FILE *fichero, struct datosArchivo *listadoDatos, char *fil
 }
 
 /**
- * Función para limpiar el buffer
+ * Función para limpiar el buffer de entrada
  */
 void limpiarBuffer()
 {
